@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Children } from "react";
+import React, { useEffect, useState } from "react";
 
 export const ProductsContext = React.createContext({
   products: [],
@@ -18,8 +18,8 @@ export default function ProductsProvider({ children }) {
         setIsLoading(false);
         setProducts(resultJson.items);
       });
-  });
-
+  }, []);
+  
   return (
     <ProductsContext.Provider
       value={{

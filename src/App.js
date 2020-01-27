@@ -1,12 +1,6 @@
 import React from "react";
+import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import "./App.css";
-
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect
-} from "react-router-dom";
 import ProductProvider from "./providers/ProducrsProvider";
 import ProductsRoute from "./routes/ProductsRoute";
 
