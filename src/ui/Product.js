@@ -1,32 +1,24 @@
 import React from "react";
-import { Card, Icon, Avatar } from "antd";
+import {Card, Icon, Avatar, Row, Col} from "antd";
 
 export default function Product({
-  id,
-  name,
-  description,
-  date,
-  price,
-  origin,
-  createdAt,
-  updatedAt
-}) {
-  return (
-    <Card
-      style={{ width: 300 }}
-      actions={[
-        <Icon type="setting" key="setting" />,
-        <Icon type="edit" key="edit" />,
-        <Icon type="ellipsis" key="ellipsis" />
-      ]}
-    >
-      <Card.Meta
-        avatar={
-          <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-        }
-        title="Card title"
-        description="This is the description"
-      />
-    </Card>
-  );
+                                    id,
+                                    name,
+                                    price,
+                                    origin,
+                                    createdAt,
+                                    updatedAt
+                                }) {
+
+    return (
+        <Row>
+            <Col span={18} offset={6}>
+                <Col span={4}>{name}</Col>
+                <Col span={4}>{origin}</Col>
+                <Col span={4}>{createdAt}</Col>
+                <Col span={4}>{updatedAt}</Col>
+                <Col span={2}>{`$${price.toLocaleString()}`}</Col>
+            </Col>
+        </Row>
+    );
 }
