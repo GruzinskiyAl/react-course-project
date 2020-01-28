@@ -2,7 +2,7 @@ import React from "react";
 import Product from "../ui/Product";
 import ProductsHeader from "../ui/ProductsHeader";
 
-export default function ProductList({products}) {
+export default function ProductList({products, showCart}) {
   return (
     <div>
       <ProductsHeader />
