@@ -9,16 +9,17 @@ export default function ProductRoute() {
 
     const {id, name, origin, price, createdAt, updatedAt} = product || {};
 
-    if(product) {
-        return (
-            <Product
-                id={id}
-                name={name}
-                origin={origin}
-                price={price}
-                createdAt={createdAt}
-                updatedAt={updatedAt}
-            />
-        )
+    if (!product) {
+        return <div>Loading</div>
     }
+    return (
+        <Product
+            id={id}
+            name={name}
+            origin={origin}
+            price={price}
+            createdAt={createdAt}
+            updatedAt={updatedAt}
+        />
+    )
 }

@@ -12,5 +12,7 @@ export const useProduct = productId => {
                 setProduct(product)
             })
     }, [productId]);
-    return product
+    return {
+        product
+    }
 };
