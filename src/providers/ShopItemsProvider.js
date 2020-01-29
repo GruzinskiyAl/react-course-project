@@ -1,33 +1,41 @@
-import React, {useEffect, useState, useCallback, useContext} from "react";
-import {ProductsContext} from "./ProductsProvider";
+import React, { useState, useCallback } from "react";
 
 export const ShopItemsContext = React.createContext({});
 
-export default function ShopItemsProvider({children}) {
-    const [shopItems, setShopItems] = useState({});
+export default function ShopItemsProvider({ children }) {
+  const [shopItems, setShopItems] = useState({});
 
-    const addToShopItems = useCallback(id => {
-        console.log(id)
-        const nextShopItems = {...shopItems};
-        nextShopItems[id] > 0 ? (nextShopItems[id] += 1) : (nextShopItems[id] = 1);
-        setShopItems(nextShopItems);
-    });
+  const addToShopItems = useCallback(
+    id => {
+      const nextShopItems = { ...shopItems };
+      nextShopItems[id] > 0
+        ? (nextShopItems[id] += 1)
+        : (nextShopItems[id] = 1);
+      setShopItems(nextShopItems);
+    },
+    [shopItems]
+  );
 
-    const deleteFromShopItems = useCallback(id => {
-        const nextShopItems = {...shopItems};
-        nextShopItems[id] > 1 ? (nextShopItems[id] -= 1) : delete nextShopItems[id];
-        setShopItems(nextShopItems);
-    });
+  const deleteFromShopItems = useCallback(
+    id => {
+      const nextShopItems = { ...shopItems };
+      nextShopItems[id] > 1
+        ? (nextShopItems[id] -= 1)
+        : delete nextShopItems[id];
+      setShopItems(nextShopItems);
+    },
+    [shopItems]
+  );
 
-    return (
-        <ShopItemsContext.Provider
-            value={{
-                shopItems,
-                addToShopItems,
-                deleteFromShopItems
-            }}
-        >
-            {children}
-        </ShopItemsContext.Provider>
-    );
+  return (
+    <ShopItemsContext.Provider
+      value={{
+        shopItems,
+        addToShopItems,
+        deleteFromShopItems
+      }}
+    >
+      {children}
+    </ShopItemsContext.Provider>
+  );
 }

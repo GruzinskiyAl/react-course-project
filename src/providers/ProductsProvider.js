@@ -1,33 +1,33 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
 export const ProductsContext = React.createContext({
-    products: [],
-    isLoading: false
+  products: [],
+  isLoading: false
 });
 
-export default function ProductsProvider({children}) {
-    const [products, setProducts] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+export default function ProductsProvider({ children }) {
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-    useEffect(() => {
-        setIsLoading(true);
+  useEffect(() => {
+    setIsLoading(true);
 
-        fetch("https://yalantis-react-school.herokuapp.com/api/v1/products")
-            .then(result => result.json())
-            .then(resultJson => {
-                setIsLoading(false);
-                setProducts(resultJson.items);
-            });
-    }, []);
+    fetch("https://yalantis-react-school.herokuapp.com/api/v1/products")
+      .then(result => result.json())
+      .then(resultJson => {
+        setIsLoading(false);
+        setProducts(resultJson.items);
+      });
+  }, []);
 
-    return (
-        <ProductsContext.Provider
-            value={{
-                products,
-                isLoading
-            }}
-        >
-            {children}
-        </ProductsContext.Provider>
-    );
+  return (
+    <ProductsContext.Provider
+      value={{
+        products,
+        isLoading
+      }}
+    >
+      {children}
+    </ProductsContext.Provider>
+  );
 }

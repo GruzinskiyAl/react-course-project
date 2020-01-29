@@ -1,11 +1,9 @@
 import React from "react";
 import Product from "../ui/Product";
-import ProductsHeader from "../ui/ProductsHeader";
 
-export default function ProductList({products}) {
+export default function ProductList({ products }) {
   return (
-    <div>
-      <ProductsHeader />
+    <div className="product-list">
       {products.map(({ id, name, price, origin, createdAt, updatedAt }) => (
         <Product
           key={id}

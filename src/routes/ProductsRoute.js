@@ -1,11 +1,11 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import ProductList from "../containers/ProductList";
-import {ProductsContext} from "../providers/ProductsProvider";
+import { ProductsContext } from "../providers/ProductsProvider";
 
 export default function ProductsRoute() {
-    const {products, isLoading} = useContext(ProductsContext);
+  const { products } = useContext(ProductsContext);
 
-    if (products) {
-        return <ProductList products={products} />;
-    }
+  if (products) {
+    return <ProductList products={products} />;
+  }
 }

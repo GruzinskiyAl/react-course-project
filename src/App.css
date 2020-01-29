@@ -37,3 +37,17 @@
     transform: rotate(360deg);
   }
 }
+
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+}
+.product {
+  margin: 5px
+}
+
+.app-header {
+  background-color: #fafafa;
+}
