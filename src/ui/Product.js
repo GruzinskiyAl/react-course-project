@@ -3,14 +3,8 @@ import { Card, Icon } from "antd";
 import { Link, useRouteMatch } from "react-router-dom";
 import { ShopItemsContext } from "../providers/ShopItemsProvider";
 
-export default function Product({
-  id,
-  name,
-  price,
-  origin,
-  createdAt,
-  updatedAt
-}) {
+export default function Product({product}) {
+  const { id, name, price, origin, createdAt, updatedAt } = product;
   const matchShop = useRouteMatch("/shop");
   const { shopItems, addToShopItems, deleteFromShopItems } = useContext(
     ShopItemsContext

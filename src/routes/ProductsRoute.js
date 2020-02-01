@@ -5,7 +5,8 @@ import { ProductsContext } from "../providers/ProductsProvider";
 export default function ProductsRoute() {
   const { products } = useContext(ProductsContext);
 
-  if (products) {
-    return <ProductList products={products} />;
+  if (!products) {
+    return<div>Loading..</div>;
   }
+  return <ProductList products={products} />;
 }

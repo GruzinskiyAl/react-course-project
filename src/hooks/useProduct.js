@@ -5,7 +5,7 @@ export const useProduct = productId => {
 
   useEffect(() => {
     fetch(
-      `https://yalantis-react-school.herokuapp.com/api/v1/products/${productId}`
+      `${process.env.REACT_APP_BASE_API_URL}/products/${productId}`
     )
       .then(res => res.json())
       .then(product => {

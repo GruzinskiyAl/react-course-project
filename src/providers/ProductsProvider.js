@@ -12,7 +12,7 @@ export default function ProductsProvider({ children }) {
   useEffect(() => {
     setIsLoading(true);
 
-    fetch("https://yalantis-react-school.herokuapp.com/api/v1/products")
+    fetch(`${process.env.REACT_APP_BASE_API_URL}/products`)
       .then(result => result.json())
       .then(resultJson => {
         setIsLoading(false);
