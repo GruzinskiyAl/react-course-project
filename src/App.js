@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   BrowserRouter as Router,
   Redirect,
@@ -14,6 +14,10 @@ import ShopRoute from "./routes/ShopRoute";
 import AppHeader from "./ui/AppHeader";
 
 export default function App() {
+  useEffect(()=> {
+
+  });
+
   return (
     <ProductProvider>
       <ShopItemsProvider>

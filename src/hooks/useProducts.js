@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProductsData } from "../api/products";
 import { getProducts } from "../store/products/actions";
 import { normalizeProducts } from "../utils/normalizeProducts";
-import { selectCharactersList } from "../store/selectors";
+import { selectProductsList } from "../store/selectors";
 
 export const useProducts = function () {
   const dispatch = useDispatch();
-  const products = [];
+  const products = useSelector(selectProductsList);
 
   useEffect(() => {
     if (!products.length) {
