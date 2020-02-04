@@ -5,7 +5,7 @@ import { useFullPrice } from "../hooks/useFullPrice";
 
 export default function AppHeader() {
   const matchProducts = useRouteMatch("/products");
-  const matchShop = useRouteMatch("/shop");
+  const matchBasket = useRouteMatch("/basket");
   const fullPrice = useFullPrice();
 
   return (
@@ -16,8 +16,8 @@ export default function AppHeader() {
         <Link key="products" to="/products">
           <Button type={matchProducts ? "primary" : "default"}>Products</Button>
         </Link>,
-        <Link key="shop" to="/shop">
-          <Button type={matchShop ? "primary" : "default"}>
+        <Link key="shop" to="/basket">
+          <Button type={matchBasket ? "primary" : "default"}>
             {`Shop $${fullPrice.toLocaleString()}`}
           </Button>
         </Link>

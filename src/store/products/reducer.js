@@ -17,10 +17,9 @@ function saveProducts(state, action) {
 }
 
 export default function productsReducer(state = initState, action) {
-  switch (action.type) {
-    case GET_PRODUCTS:
-      return saveProducts(state, action);
-    default:
-      return state
+  if (action.type === GET_PRODUCTS) {
+    return saveProducts(state, action);
   }
+  return state
+
 }

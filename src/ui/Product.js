@@ -1,36 +1,42 @@
-import React, { useContext } from "react";
+import React, {useCallback, useContext} from "react";
 import { Card, Icon } from "antd";
 import { Link, useRouteMatch } from "react-router-dom";
 import { ShopItemsContext } from "../providers/ShopItemsProvider";
+import {useDispatch} from "react-redux";
 
 export default function Product({product}) {
   const { id, name, price, origin, createdAt, updatedAt } = product;
-  const matchShop = useRouteMatch("/shop");
+  const matchBasket = useRouteMatch("/basket");
   const { shopItems, addToShopItems, deleteFromShopItems } = useContext(
     ShopItemsContext
   );
   const isLastProductShopped = shopItems[id] === 1;
 
+  const handleBuyClick = useCallback(()=>{
+
+  }, [id])
+
+
   const actions = [
-    !matchShop && (
+    !matchBasket && (
       <Icon
         key="shopping-cart"
         type="shopping-cart"
         onClick={() => addToShopItems(id)}
       />
     ),
-    matchShop && !isLastProductShopped && (
+    matchBasket && !isLastProductShopped && (
       <Icon key="left" type="left" onClick={() => deleteFromShopItems(id)} />
     ),
-    matchShop && isLastProductShopped && (
+    matchBasket && isLastProductShopped && (
       <Icon
         key="delete"
         type="delete"
         onClick={() => deleteFromShopItems(id)}
       />
     ),
-    matchShop && <p>{shopItems[id]}</p>,
-    matchShop && (
+    matchBasket && <p>{shopItems[id]}</p>,
+    matchBasket && (
       <Icon key="right" type="right" onClick={() => addToShopItems(id)} />
     )
   ].filter(Boolean);
@@ -52,7 +58,7 @@ export default function Product({product}) {
       <p>Date updated: {new Date(updatedAt).toLocaleString()}</p>
       <p>
         Price:
-        {`$ ${(matchShop ? price * shopItems[id] : price).toLocaleString()}`}
+        {`$ ${(matchBasket ? price * shopItems[id] : price).toLocaleString()}`}
       </p>
     </Card>
   );
