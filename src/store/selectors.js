@@ -6,6 +6,10 @@ export const selectProducts = state => {
 export const selectBasket = state => {
   return state.basket
 };
+export const selectFiltration = state => {
+  return state.filtration
+};
+
 //products
 export const selectProductsEntities = createSelector(
   selectProducts,
@@ -22,6 +26,11 @@ export const selectProductsList = createSelector(
 );
 
 //basket
+export const makeSelectBasketItemCount = id => createSelector(
+  selectBasket,
+  (basketItems => basketItems[id])
+);
+
 export const selectBasketIds = createSelector(
   selectBasket,
   state => Object.keys(state)
@@ -29,7 +38,7 @@ export const selectBasketIds = createSelector(
 
 export const selectBasketProductsList = createSelector(
   [selectProductsEntities, selectBasketIds],
-  (products, allIds = []) => allIds.map(id => products[id])
+  (products, allIds = []) => Object.keys(products).length? allIds.map(id => products[id]): []
 );
 
 export const makeSelectBasketItemPrice = id =>

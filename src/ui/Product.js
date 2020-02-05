@@ -1,39 +1,52 @@
 import React, {useCallback} from "react";
-import { Card, Icon } from "antd";
-import { Link, useRouteMatch } from "react-router-dom";
-import {connect} from "react-redux";
-import {addBasketItem} from "../store/basket/actions";
+import {Card, Icon} from "antd";
+import {Link, useRouteMatch} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {decrementBasketItemCount, dropBasketItem, incrementBasketItemCount} from "../store/basket/actions";
+import {makeSelectBasketItemCount, makeSelectBasketItemPrice} from "../store/selectors";
 
-function Product({product, state, dispatch}) {
+export default function Product({product}) {
   const matchBasket = useRouteMatch("/basket");
-  const { id, name, price, origin, createdAt, updatedAt } = product;
+  const {id, name, price, origin, createdAt, updatedAt} = product;
 
-  const handleBuyClick = useCallback(()=>{
-    dispatch(addBasketItem(id))
-  }, [id]);
+  const basketProductsPrice = useSelector(makeSelectBasketItemPrice(id));
+  const dispatch = useDispatch();
+  const countInBasket = useSelector(makeSelectBasketItemCount(id));
 
+  const handleIncrementClick = useCallback(() => {
+    dispatch(incrementBasketItemCount(id))
+  }, [id, dispatch]);
+
+  const handleDecrementClick = useCallback(() => {
+    dispatch(decrementBasketItemCount(id))
+  }, [id, dispatch]);
+
+  const handleDeleteClick = useCallback(()=>{
+    dispatch(dropBasketItem(id))
+  },[id, dispatch]);
 
   const actions = [
     !matchBasket && (
       <Icon
         key="shopping-cart"
         type="shopping-cart"
-        onClick={()=>handleBuyClick()}
+        onClick={handleIncrementClick}
       />
     ),
-    matchBasket && true && (
-      <Icon key="left" type="left" onClick={() => {}} />
-    ),
-    matchBasket && true && (
+    matchBasket && (
       <Icon
         key="delete"
         type="delete"
-        onClick={() => {}}
+        onClick={handleDeleteClick}
       />
     ),
-    matchBasket && <p>{true}</p>,
     matchBasket && (
-      <Icon key="right" type="right" onClick={() => {}} />
+      <Icon key="left" type="left" onClick={handleDecrementClick}/>
+    ),
+
+    matchBasket && <p>{countInBasket}</p>,
+    matchBasket && (
+      <Icon key="right" type="right" onClick={handleIncrementClick}/>
     )
   ].filter(Boolean);
 
@@ -47,25 +60,15 @@ function Product({product, state, dispatch}) {
         </Link>
       }
       actions={actions}
-      style={{ width: 400 }}
+      style={{width: 400}}
     >
       <p>Origin: {origin}</p>
       <p>Date created: {new Date(createdAt).toLocaleString()}</p>
       <p>Date updated: {new Date(updatedAt).toLocaleString()}</p>
       <p>
         Price:
-        {`$ ${(matchBasket ? price * 1 : price).toLocaleString()}`}
+        {`$ ${(matchBasket ? basketProductsPrice : price).toLocaleString()}`}
       </p>
     </Card>
   );
 }
-
-function mapStateToProps(state) {
-  return {state}
-}
-
-const enhancer = connect(
-  mapStateToProps
-);
-
-export default enhancer(Product)

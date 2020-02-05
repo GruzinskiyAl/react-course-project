@@ -3,16 +3,20 @@ import {useDispatch, useSelector} from "react-redux";
 import {getProductsData} from "../api/products";
 import {getProducts} from "../store/products/actions";
 import {normalizeProducts} from "../utils/normalizers";
-import {selectProductsList} from "../store/selectors";
+import {selectFiltration, selectProductsList} from "../store/selectors";
 
 export const useProducts = function () {
   const dispatch = useDispatch();
   const products = useSelector(selectProductsList);
+  const filters = useSelector(selectFiltration);
+  // console.log(filters);
+  const origins = filters.origins;
 
   useEffect(() => {
     if (!products.length) {
-      getProductsData()
+      getProductsData(filters)
         .then(data => {
+          console.log('request');
           const dataToSave = normalizeProducts(data);
           dispatch(getProducts(dataToSave));
         })
@@ -20,7 +24,7 @@ export const useProducts = function () {
           console.log("Error obtaining characters:", error);
         });
     }
-  }, [dispatch, products]);
+  }, [dispatch, products, origins]);
   return useMemo(
     () => ({
       products
