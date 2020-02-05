@@ -3,6 +3,7 @@ import {PageHeader, Button} from "antd";
 import {Link, useRouteMatch} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectBasketFullPrice} from "../store/selectors";
+import ProductsFilter from "./filtration/ProductsFilter";
 
 export default function AppHeader() {
   const matchProducts = useRouteMatch("/products");
@@ -10,6 +11,7 @@ export default function AppHeader() {
   const fullPrice = useSelector(selectBasketFullPrice);
 
   return (
+    <>
     <PageHeader
       className="app-header"
       title="Shopping"
@@ -24,5 +26,7 @@ export default function AppHeader() {
         </Link>
       ]}
     />
+    <ProductsFilter/>
+    </>
   );
 }

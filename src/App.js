@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   BrowserRouter as Router,
   Redirect,
@@ -15,25 +16,23 @@ import {useProducts} from "./hooks/useProducts";
 export default function App() {
   const {products} = useProducts();
 
-  if(products) {
-    return (
-      <Router>
-        <AppHeader/>
-        <Switch>
-          <Route path="/products/:productId">
-            <ProductRoute/>
-          </Route>
-          <Route path="/products">
-            <ProductsRoute products={products}/>
-          </Route>
-          <Route path="/basket">
-            <BasketRoute/>
-          </Route>
-          <Route path="*">
-            <Redirect to="/products"/>
-          </Route>
-        </Switch>
-      </Router>
-    );
-  }
+  return (
+    <Router>
+      <AppHeader/>
+      <Switch>
+        <Route path="/products/:productId">
+          <ProductRoute/>
+        </Route>
+        <Route path="/products">
+          <ProductsRoute products={products}/>
+        </Route>
+        <Route path="/basket">
+          <BasketRoute/>
+        </Route>
+        <Route path="*">
+          <Redirect to="/products"/>
+        </Route>
+      </Switch>
+    </Router>
+  );
 };
