@@ -6,7 +6,6 @@ import {
   Switch
 } from "react-router-dom";
 import "./App.css";
-import ShopItemsProvider from "./providers/ShopItemsProvider";
 import ProductsRoute from "./routes/ProductsRoute";
 import ProductRoute from "./routes/ProductRoute";
 import BasketRoute from "./routes/BasketRoute";
@@ -15,8 +14,9 @@ import {useProducts} from "./hooks/useProducts";
 
 export default function App() {
   const {products} = useProducts();
-  return (
-    <ShopItemsProvider>
+
+  if(products) {
+    return (
       <Router>
         <AppHeader/>
         <Switch>
@@ -34,6 +34,6 @@ export default function App() {
           </Route>
         </Switch>
       </Router>
-    </ShopItemsProvider>
-  );
+    );
+  }
 };

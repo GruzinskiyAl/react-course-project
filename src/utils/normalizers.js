@@ -8,10 +8,3 @@ export const normalizeProducts = function (data) {
     allIds
   };
 };
-
-export const normalizeBasketItem = function (data) {
-  return {
-    byId: data,
-    allIds: [...Object.keys(data)]
-  }
-}

@@ -22,16 +22,26 @@ export const selectProductsList = createSelector(
 );
 
 //basket
-export const selectBasketEntities = createSelector(
-  selectBasket,
-  state => state.byId
-);
 export const selectBasketIds = createSelector(
   selectBasket,
-  state => state.allIds
+  state => Object.keys(state)
 );
 
 export const selectBasketProductsList = createSelector(
   [selectProductsEntities, selectBasketIds],
   (products, allIds = []) => allIds.map(id => products[id])
+);
+
+export const makeSelectBasketItemPrice = id =>
+  createSelector(
+    [selectProductsEntities, selectBasket],
+    (products, basketItems) => products[id].price * basketItems[id]
+  );
+
+export const selectBasketFullPrice = createSelector(
+  [selectBasketProductsList, selectBasket],
+  (products, basketItems) => products.reduce(
+    (sum, product) => sum + product.price * basketItems[product.id],
+    0
+  )
 );

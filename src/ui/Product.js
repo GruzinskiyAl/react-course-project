@@ -1,20 +1,16 @@
-import React, {useCallback, useContext} from "react";
+import React, {useCallback} from "react";
 import { Card, Icon } from "antd";
 import { Link, useRouteMatch } from "react-router-dom";
-import { ShopItemsContext } from "../providers/ShopItemsProvider";
-import {useDispatch} from "react-redux";
+import {connect} from "react-redux";
+import {addBasketItem} from "../store/basket/actions";
 
-export default function Product({product}) {
-  const { id, name, price, origin, createdAt, updatedAt } = product;
+function Product({product, state, dispatch}) {
   const matchBasket = useRouteMatch("/basket");
-  const { shopItems, addToShopItems, deleteFromShopItems } = useContext(
-    ShopItemsContext
-  );
-  const isLastProductShopped = shopItems[id] === 1;
+  const { id, name, price, origin, createdAt, updatedAt } = product;
 
   const handleBuyClick = useCallback(()=>{
-
-  }, [id])
+    dispatch(addBasketItem(id))
+  }, [id]);
 
 
   const actions = [
@@ -22,22 +18,22 @@ export default function Product({product}) {
       <Icon
         key="shopping-cart"
         type="shopping-cart"
-        onClick={() => addToShopItems(id)}
+        onClick={()=>handleBuyClick()}
       />
     ),
-    matchBasket && !isLastProductShopped && (
-      <Icon key="left" type="left" onClick={() => deleteFromShopItems(id)} />
+    matchBasket && true && (
+      <Icon key="left" type="left" onClick={() => {}} />
     ),
-    matchBasket && isLastProductShopped && (
+    matchBasket && true && (
       <Icon
         key="delete"
         type="delete"
-        onClick={() => deleteFromShopItems(id)}
+        onClick={() => {}}
       />
     ),
-    matchBasket && <p>{shopItems[id]}</p>,
+    matchBasket && <p>{true}</p>,
     matchBasket && (
-      <Icon key="right" type="right" onClick={() => addToShopItems(id)} />
+      <Icon key="right" type="right" onClick={() => {}} />
     )
   ].filter(Boolean);
 
@@ -58,8 +54,18 @@ export default function Product({product}) {
       <p>Date updated: {new Date(updatedAt).toLocaleString()}</p>
       <p>
         Price:
-        {`$ ${(matchBasket ? price * shopItems[id] : price).toLocaleString()}`}
+        {`$ ${(matchBasket ? price * 1 : price).toLocaleString()}`}
       </p>
     </Card>
   );
 }
+
+function mapStateToProps(state) {
+  return {state}
+}
+
+const enhancer = connect(
+  mapStateToProps
+);
+
+export default enhancer(Product)
