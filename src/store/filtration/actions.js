@@ -7,7 +7,7 @@ export function setFilters(data) {
   }
 }
 
-function dropFilters() {
+export function dropFilters() {
   return {
      type: DROP_FILTERS
   }

@@ -1,7 +1,7 @@
 import {INCREMENT_ITEM_COUNT, DECREMENT_ITEM_COUNT, DROP_ITEM, SET_ITEM_COUNT} from "./actionTypes";
 
-// const initState = {};
-const initState = {"4423b750-48ea-424a-9432-c77261bb4682": 2};
+const initState = {};
+// const initState = {"4423b750-48ea-424a-9432-c77261bb4682": 2};
 
 function incrementItemCount(newState, action) {
   if (newState[action.id] > 0) {

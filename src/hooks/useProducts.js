@@ -8,27 +8,27 @@ import {selectFiltration, selectProductsList} from "../store/selectors";
 export const useProducts = function () {
   const dispatch = useDispatch();
   const products = useSelector(selectProductsList);
-  const filters = useSelector(selectFiltration);
-  // console.log(filters);
-  const origins = filters.origins;
+  const filtration = useSelector(selectFiltration);
+  const options = {
+    queryParams: filtration
+  };
 
   useEffect(() => {
-    if (!products.length) {
-      getProductsData(filters)
-        .then(data => {
-          console.log('request');
-          const dataToSave = normalizeProducts(data);
-          dispatch(getProducts(dataToSave));
-        })
-        .catch(error => {
-          console.log("Error obtaining characters:", error);
-        });
-    }
-  }, [dispatch, products, origins]);
+    console.log(options);
+    getProductsData(options)
+      .then(data => {
+        console.log(data);
+        const dataToSave = normalizeProducts(data);
+        dispatch(getProducts(dataToSave));
+      })
+      .catch(error => {
+        console.log("Error obtaining characters:", error);
+      });
+  }, [dispatch, filtration]);
   return useMemo(
     () => ({
       products
     }),
-    [products]
+    [products, options]
   );
 };

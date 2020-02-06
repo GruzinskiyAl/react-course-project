@@ -9,12 +9,14 @@ export default function PriceFilter({minPrice, maxPrice, setMinPrice, setMaxPric
         formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
         parser={value => value.replace(/\$\s?|(,*)/g, '')}
         onChange={value => setMinPrice(value)}
+        value={minPrice}
       />
       <InputNumber
         defaultValue={maxPrice}
         formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
         parser={value => value.replace(/\$\s?|(,*)/g, '')}
         onChange={value => setMaxPrice(value)}
+        value={maxPrice}
       />
     </div>
   )

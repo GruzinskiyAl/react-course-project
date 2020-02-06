@@ -38,7 +38,7 @@ export const selectBasketIds = createSelector(
 
 export const selectBasketProductsList = createSelector(
   [selectProductsEntities, selectBasketIds],
-  (products, allIds = []) => Object.keys(products).length? allIds.map(id => products[id]): []
+  (products, allIds = []) => Object.keys(products).length ? allIds.filter(id => id in products).map(id => products[id]) : []
 );
 
 export const makeSelectBasketItemPrice = id =>
@@ -49,8 +49,8 @@ export const makeSelectBasketItemPrice = id =>
 
 export const selectBasketFullPrice = createSelector(
   [selectBasketProductsList, selectBasket],
-  (products, basketItems) => products.reduce(
-    (sum, product) => sum + product.price * basketItems[product.id],
-    0
-  )
+  (products, basketItems) => {
+    return products.reduce((sum, product) => sum + product.price * basketItems[product.id], 0
+    )
+  }
 );

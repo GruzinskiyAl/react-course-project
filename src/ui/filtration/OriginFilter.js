@@ -3,10 +3,10 @@ import {Checkbox} from "antd";
 
 const CheckboxGroup = Checkbox.Group;
 
-export default function RegionFilter({origins, setOrigins}) {
-  const [checkedList, setCheckedList] = useState([]);
+export default function OriginFilter({options, origins, setOrigins}) {
+  const [checkedList, setCheckedList] = useState(origins);
   const [indeterminate, setIndeterminate] = useState(false);
-  const [checkAll, setCheckAll] = useState(false);
+  const [checkAll, setCheckAll] = useState(checkedList.length === origins.length);
 
   const onChange = useCallback(checkedList => {
     setCheckedList(checkedList);
@@ -22,8 +22,8 @@ export default function RegionFilter({origins, setOrigins}) {
   }, [origins]);
 
   useEffect(()=>{
-    setOrigins(checkedList)
-  }, [checkedList, setOrigins]);
+    setCheckedList(origins)
+  }, [origins, setOrigins]);
 
   return (
     <div>
@@ -38,7 +38,7 @@ export default function RegionFilter({origins, setOrigins}) {
       </div>
       <br/>
       <CheckboxGroup
-        options={origins}
+        options={options}
         value={checkedList}
         onChange={onChange}
       />

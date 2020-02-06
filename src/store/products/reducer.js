@@ -7,12 +7,10 @@ export const initState = {
 
 function saveProducts(state, action) {
   return {
-    ...state,
     byId: {
-      ...state.byId,
       ...action.byId
     },
-    allIds: [...state.allIds, ...action.allIds]
+    allIds: [...action.allIds]
   }
 }
 

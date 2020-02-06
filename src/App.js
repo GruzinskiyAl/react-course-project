@@ -12,7 +12,6 @@ import ProductRoute from "./routes/ProductRoute";
 import BasketRoute from "./routes/BasketRoute";
 import AppHeader from "./ui/AppHeader";
 import {useProducts} from "./hooks/useProducts";
-import {selectFiltration} from "./store/selectors";
 
 export default function App() {
   const {products} = useProducts();
