@@ -51,3 +51,9 @@
 .app-header {
   background-color: #fafafa;
 }
+
+.filter-block {
+  display: flex;
+  flex-direction: column;
+
+}

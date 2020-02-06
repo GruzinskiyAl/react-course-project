@@ -1,9 +1,9 @@
-import React, {useState, useCallback, useEffect} from "react";
+import React, {useState, useCallback} from "react";
 import OriginFilter from "./OriginFilter";
 import PriceFilter from "./PriceFilter";
 import {Button} from 'antd';
 import {connect} from "react-redux";
-import {setFilters, dropFilters} from "../../store/filtration/actions";
+import {setFilters} from "../../store/filtration/actions";
 
 const ORIGINS = ['usa', 'africa', 'asia', 'europe'];
 
@@ -16,23 +16,13 @@ function ProductsFilter({filtration, dispatch}) {
     dispatch(setFilters({origins, minPrice, maxPrice}))
   }, [origins, minPrice, maxPrice, dispatch]);
 
-  useEffect(() => {
-    // debugger
-    setOrigins(filtration.origins);
-    setMinPrice(filtration.minPrice);
-    setMaxPrice(filtration.maxPrice)
-  }, [filtration, dispatch]);
-
-  const handleClear = useCallback(() => {
-    dispatch(dropFilters())
-  }, []);
-
   return (
-    <div>
+    <div className={'filter-block'}>
+      <div>Origin filter:</div>
       <OriginFilter options={ORIGINS} origins={origins} setOrigins={setOrigins}/>
+      <div>Price filter:</div>
       <PriceFilter minPrice={minPrice} maxPrice={maxPrice} setMinPrice={setMinPrice} setMaxPrice={setMaxPrice}/>
       <Button type="primary" onClick={handleSubmit}>Submit</Button>
-      <Button onClick={handleClear}>Clear</Button>
     </div>
   )
 }
@@ -43,6 +33,7 @@ function mapStateToProps(state) {
     filtration: state.filtration,
   };
 }
+
 export default connect(
   mapStateToProps,
 )(ProductsFilter);

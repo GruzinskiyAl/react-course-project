@@ -1,4 +1,4 @@
-import {SET_FILTERS, DROP_FILTERS} from "./actionTypes";
+import {SET_FILTERS} from "./actionTypes";
 
 
 const initState = {
@@ -13,8 +13,6 @@ export default function filtrationReducer(state = initState, action) {
       ...state,
       ...action.data
     }
-  } else if (action.type === DROP_FILTERS) {
-    return initState
   }
   return state
 }

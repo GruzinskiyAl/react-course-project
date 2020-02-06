@@ -1,17 +1,18 @@
 import React, {useCallback} from "react";
 import {Card, Icon} from "antd";
 import {Link, useRouteMatch} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {decrementBasketItemCount, dropBasketItem, incrementBasketItemCount} from "../store/basket/actions";
-import {makeSelectBasketItemCount, makeSelectBasketItemPrice} from "../store/selectors";
+import useBasketItemPrice from "../hooks/useBasketItemPrice";
+import useBasketItemCount from "../hooks/useBasketItemCount";
 
 export default function Product({product}) {
   const matchBasket = useRouteMatch("/basket");
   const {id, name, price, origin, createdAt, updatedAt} = product;
 
-  const basketProductsPrice = useSelector(makeSelectBasketItemPrice(id));
+  const basketProductsPrice = useBasketItemPrice(id);
   const dispatch = useDispatch();
-  const countInBasket = useSelector(makeSelectBasketItemCount(id));
+  const countInBasket = useBasketItemCount(id);
 
   const handleIncrementClick = useCallback(() => {
     dispatch(incrementBasketItemCount(id))
@@ -21,9 +22,9 @@ export default function Product({product}) {
     dispatch(decrementBasketItemCount(id))
   }, [id, dispatch]);
 
-  const handleDeleteClick = useCallback(()=>{
+  const handleDeleteClick = useCallback(() => {
     dispatch(dropBasketItem(id))
-  },[id, dispatch]);
+  }, [id, dispatch]);
 
   const actions = [
     !matchBasket && (

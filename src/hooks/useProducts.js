@@ -14,10 +14,8 @@ export const useProducts = function () {
   };
 
   useEffect(() => {
-    console.log(options);
     getProductsData(options)
       .then(data => {
-        console.log(data);
         const dataToSave = normalizeProducts(data);
         dispatch(getProducts(dataToSave));
       })
@@ -29,6 +27,6 @@ export const useProducts = function () {
     () => ({
       products
     }),
-    [products, options]
+    [products]
   );
 };

@@ -5,43 +5,20 @@ const CheckboxGroup = Checkbox.Group;
 
 export default function OriginFilter({options, origins, setOrigins}) {
   const [checkedList, setCheckedList] = useState(origins);
-  const [indeterminate, setIndeterminate] = useState(false);
-  const [checkAll, setCheckAll] = useState(checkedList.length === origins.length);
 
   const onChange = useCallback(checkedList => {
-    setCheckedList(checkedList);
-    setIndeterminate(!!checkedList.length && checkedList.length < origins.length,);
-    setCheckAll(checkedList.length === origins.length)
-  }, [origins]);
+    setOrigins(checkedList);
+  }, [setOrigins]);
 
-
-  const onCheckAllChange = useCallback(e => {
-    setCheckedList(e.target.checked ? origins : []);
-    setIndeterminate(false);
-    setCheckAll(e.target.checked)
-  }, [origins]);
-
-  useEffect(()=>{
+  useEffect(() => {
     setCheckedList(origins)
   }, [origins, setOrigins]);
 
   return (
-    <div>
-      <div style={{borderBottom: '1px solid #E9E9E9'}}>
-        <Checkbox
-          indeterminate={indeterminate}
-          onChange={onCheckAllChange}
-          checked={checkAll}
-        >
-          Check all
-        </Checkbox>
-      </div>
-      <br/>
-      <CheckboxGroup
-        options={options}
-        value={checkedList}
-        onChange={onChange}
-      />
-    </div>
+    <CheckboxGroup
+      options={options}
+      value={checkedList}
+      onChange={onChange}
+    />
   )
 }
