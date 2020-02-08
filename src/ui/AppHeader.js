@@ -1,12 +1,13 @@
 import React from "react";
-import { PageHeader, Button } from "antd";
-import { Link, useRouteMatch } from "react-router-dom";
-import { useFullPrice } from "../hooks/useFullPrice";
+import {PageHeader, Button} from "antd";
+import {Link, useRouteMatch} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {selectBasketFullPrice} from "../store/selectors";
 
 export default function AppHeader() {
   const matchProducts = useRouteMatch("/products");
-  const matchShop = useRouteMatch("/shop");
-  const fullPrice = useFullPrice();
+  const matchBasket = useRouteMatch("/basket");
+  const fullPrice = useSelector(selectBasketFullPrice);
 
   return (
     <PageHeader
@@ -16,8 +17,8 @@ export default function AppHeader() {
         <Link key="products" to="/products">
           <Button type={matchProducts ? "primary" : "default"}>Products</Button>
         </Link>,
-        <Link key="shop" to="/shop">
-          <Button type={matchShop ? "primary" : "default"}>
+        <Link key="shop" to="/basket">
+          <Button type={matchBasket ? "primary" : "default"}>
             {`Shop $${fullPrice.toLocaleString()}`}
           </Button>
         </Link>

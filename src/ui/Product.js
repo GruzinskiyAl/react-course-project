@@ -1,37 +1,44 @@
-import React, { useContext } from "react";
-import { Card, Icon } from "antd";
-import { Link, useRouteMatch } from "react-router-dom";
-import { ShopItemsContext } from "../providers/ShopItemsProvider";
+import React from "react";
+import {Card, Icon} from "antd";
+import {Link, useRouteMatch} from "react-router-dom";
+import useBasketItemPrice from "../hooks/useBasketItemPrice";
+import useBasketItemCount from "../hooks/useBasketItemCount";
+import useProductActionHandlers from "../hooks/useProductActionHandlers";
 
 export default function Product({product}) {
-  const { id, name, price, origin, createdAt, updatedAt } = product;
-  const matchShop = useRouteMatch("/shop");
-  const { shopItems, addToShopItems, deleteFromShopItems } = useContext(
-    ShopItemsContext
-  );
-  const isLastProductShopped = shopItems[id] === 1;
+  const matchBasket = useRouteMatch("/basket");
+  const {id, name, price, origin, createdAt, updatedAt} = product;
+
+  const basketProductsPrice = useBasketItemPrice(id);
+  const countInBasket = useBasketItemCount(id);
+  const {
+    handleIncrementClick,
+    handleDecrementClick,
+    handleDeleteClick
+  } = useProductActionHandlers(id);
 
   const actions = [
-    !matchShop && (
+    !matchBasket && (
       <Icon
         key="shopping-cart"
         type="shopping-cart"
-        onClick={() => addToShopItems(id)}
+        onClick={handleIncrementClick}
       />
     ),
-    matchShop && !isLastProductShopped && (
-      <Icon key="left" type="left" onClick={() => deleteFromShopItems(id)} />
-    ),
-    matchShop && isLastProductShopped && (
+    matchBasket && (
       <Icon
         key="delete"
         type="delete"
-        onClick={() => deleteFromShopItems(id)}
+        onClick={handleDeleteClick}
       />
     ),
-    matchShop && <p>{shopItems[id]}</p>,
-    matchShop && (
-      <Icon key="right" type="right" onClick={() => addToShopItems(id)} />
+    matchBasket && (
+      <Icon key="left" type="left" onClick={handleDecrementClick}/>
+    ),
+
+    matchBasket && <p>{countInBasket}</p>,
+    matchBasket && (
+      <Icon key="right" type="right" onClick={handleIncrementClick}/>
     )
   ].filter(Boolean);
 
@@ -45,14 +52,13 @@ export default function Product({product}) {
         </Link>
       }
       actions={actions}
-      style={{ width: 400 }}
+      style={{width: 400}}
     >
       <p>Origin: {origin}</p>
       <p>Date created: {new Date(createdAt).toLocaleString()}</p>
       <p>Date updated: {new Date(updatedAt).toLocaleString()}</p>
       <p>
-        Price:
-        {`$ ${(matchShop ? price * shopItems[id] : price).toLocaleString()}`}
+        Price: {`$${(matchBasket ? basketProductsPrice : price).toLocaleString()}`}
       </p>
     </Card>
   );

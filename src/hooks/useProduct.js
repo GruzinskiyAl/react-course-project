@@ -1,18 +1,19 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect, useMemo} from "react";
+import {getProductData} from '../api/products'
 
 export const useProduct = productId => {
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    fetch(
-      `${process.env.REACT_APP_BASE_API_URL}/products/${productId}`
-    )
-      .then(res => res.json())
+    getProductData(productId)
       .then(product => {
         setProduct(product);
       });
   }, [productId]);
-  return {
-    product
-  };
+  return useMemo(
+    () => ({
+      product
+    }),
+    [product]
+  );
 };

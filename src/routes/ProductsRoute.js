@@ -1,10 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import ProductList from "../containers/ProductList";
-import { ProductsContext } from "../providers/ProductsProvider";
 
-export default function ProductsRoute() {
-  const { products } = useContext(ProductsContext);
-
+export default function ProductsRoute({products}) {
   if (!products) {
     return<div>Loading..</div>;
   }
