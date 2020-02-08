@@ -1,30 +1,21 @@
-import React, {useCallback} from "react";
+import React from "react";
 import {Card, Icon} from "antd";
 import {Link, useRouteMatch} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {decrementBasketItemCount, dropBasketItem, incrementBasketItemCount} from "../store/basket/actions";
 import useBasketItemPrice from "../hooks/useBasketItemPrice";
 import useBasketItemCount from "../hooks/useBasketItemCount";
+import useProductActionHandlers from "../hooks/useProductActionHandlers";
 
 export default function Product({product}) {
   const matchBasket = useRouteMatch("/basket");
   const {id, name, price, origin, createdAt, updatedAt} = product;
 
   const basketProductsPrice = useBasketItemPrice(id);
-  const dispatch = useDispatch();
   const countInBasket = useBasketItemCount(id);
-
-  const handleIncrementClick = useCallback(() => {
-    dispatch(incrementBasketItemCount(id))
-  }, [id, dispatch]);
-
-  const handleDecrementClick = useCallback(() => {
-    dispatch(decrementBasketItemCount(id))
-  }, [id, dispatch]);
-
-  const handleDeleteClick = useCallback(() => {
-    dispatch(dropBasketItem(id))
-  }, [id, dispatch]);
+  const {
+    handleIncrementClick,
+    handleDecrementClick,
+    handleDeleteClick
+  } = useProductActionHandlers(id);
 
   const actions = [
     !matchBasket && (
@@ -67,8 +58,7 @@ export default function Product({product}) {
       <p>Date created: {new Date(createdAt).toLocaleString()}</p>
       <p>Date updated: {new Date(updatedAt).toLocaleString()}</p>
       <p>
-        Price:
-        {`$ ${(matchBasket ? basketProductsPrice : price).toLocaleString()}`}
+        Price: {`$${(matchBasket ? basketProductsPrice : price).toLocaleString()}`}
       </p>
     </Card>
   );

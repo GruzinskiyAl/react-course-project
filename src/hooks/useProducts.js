@@ -9,15 +9,14 @@ export const useProducts = function () {
   const dispatch = useDispatch();
   const products = useSelector(selectProductsList);
   const filtration = useSelector(selectFiltration);
-  const options = {
-    queryParams: filtration
-  };
 
   useEffect(() => {
+    const options = {
+      queryParams: filtration
+    };
     getProductsData(options)
       .then(data => {
-        const dataToSave = normalizeProducts(data);
-        dispatch(getProducts(dataToSave));
+        dispatch(getProducts(normalizeProducts(data)));
       })
       .catch(error => {
         console.log("Error obtaining characters:", error);

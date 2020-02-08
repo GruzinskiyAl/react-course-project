@@ -1,6 +1,6 @@
 import React from "react";
 import Product from "../ui/Product";
-import ProductsFilter from "../ui/filtration/ProductsFilter";
+import ProductsFilter from "./ProductsFilter";
 import {Layout} from 'antd';
 
 const {Sider, Content} = Layout;
