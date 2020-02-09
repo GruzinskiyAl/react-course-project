@@ -1,19 +1,17 @@
 import React from "react";
 import {PageHeader, Button} from "antd";
 import {Link, useRouteMatch} from "react-router-dom";
-import {useSelector} from "react-redux";
-import {selectBasketFullPrice} from "../store/selectors";
 
-export default function AppHeader() {
+export default function AppHeader({fullPrice, addProductClickHandler}) {
   const matchProducts = useRouteMatch("/products");
   const matchBasket = useRouteMatch("/basket");
-  const fullPrice = useSelector(selectBasketFullPrice);
 
   return (
     <PageHeader
       className="app-header"
       title="Shopping"
       extra={[
+        <Button key={"addProduct"} type={'default'} onClick={addProductClickHandler}>Add Product</Button>,
         <Link key="products" to="/products">
           <Button type={matchProducts ? "primary" : "default"}>Products</Button>
         </Link>,

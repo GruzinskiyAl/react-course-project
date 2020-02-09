@@ -9,15 +9,17 @@ import "./App.css";
 import ProductsRoute from "./routes/ProductsRoute";
 import ProductRoute from "./routes/ProductRoute";
 import BasketRoute from "./routes/BasketRoute";
-import AppHeader from "./ui/AppHeader";
 import {useProducts} from "./hooks/useProducts";
+import NavBarContainer from "./containers/NavBarContainer";
+import ProductFormContainer from "./containers/ProductFormContainer";
 
 export default function App() {
   const {products} = useProducts();
 
   return (
     <Router>
-      <AppHeader/>
+      <NavBarContainer/>
+      <ProductFormContainer />
       <Switch>
         <Route path="/products/:productId">
           <ProductRoute/>
