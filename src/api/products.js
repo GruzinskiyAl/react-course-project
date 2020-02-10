@@ -16,7 +16,7 @@ export const getProductsData = function ({queryParams}) {
 };
 
 export const getProductData = function (productId, options) {
-  const url = new URL(`${process.env.REACT_APP_BASE_API_URL}/products/${productId}`)
+  const url = new URL(`${process.env.REACT_APP_BASE_API_URL}/products/${productId}`);
   return fetch(url, options)
     .then(result => result.json())
     .catch(error => console.log(error))
@@ -24,7 +24,6 @@ export const getProductData = function (productId, options) {
 
 export const postProductData = function (data) {
   const postData = {product: data};
-  const url = new URL(`${process.env.REACT_APP_BASE_API_URL}/products`)
+  const url = new URL(`${process.env.REACT_APP_BASE_API_URL}/products`);
   return axios.post(url, postData, {headers})
-    // .then(data => data)
 };
