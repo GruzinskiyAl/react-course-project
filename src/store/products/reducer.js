@@ -2,15 +2,18 @@ import {GET_PRODUCTS} from "./actionTypes";
 
 export const initState = {
   byId: {},
-  allIds: []
+  allIds: [],
+  currentIds: []
 };
 
 function saveProducts(state, action) {
   return {
     byId: {
+      ...state.byId,
       ...action.byId
     },
-    allIds: [...action.allIds]
+    allIds: [...state.allIds, ...action.allIds.filter(el => !state.allIds.includes(el))],
+    currentIds: [...action.allIds]
   }
 }
 

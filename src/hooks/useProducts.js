@@ -3,12 +3,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {getProductsData} from "../api/products";
 import {getProducts} from "../store/products/actions";
 import {normalizeProducts} from "../utils/normalizers";
-import {selectFiltration, selectProductsList} from "../store/selectors";
+import {selectCurrentProducts} from "../store/selectors";
 
-export const useProducts = function () {
+export const useProducts = function (filtration) {
   const dispatch = useDispatch();
-  const products = useSelector(selectProductsList);
-  const filtration = useSelector(selectFiltration);
+  // const products = useSelector(selectProductsList);
+  const currentProducts = useSelector(selectCurrentProducts);
+  console.log(currentProducts);
 
   useEffect(() => {
     const options = {
@@ -16,16 +17,19 @@ export const useProducts = function () {
     };
     getProductsData(options)
       .then(data => {
-        dispatch(getProducts(normalizeProducts(data)));
+        console.log('request');
+        return dispatch(getProducts(normalizeProducts(data)));
       })
       .catch(error => {
         console.log("Error obtaining characters:", error);
       });
   }, [dispatch, filtration]);
+
+
   return useMemo(
     () => ({
-      products
+      currentProducts
     }),
-    [products]
+    [currentProducts]
   );
 };

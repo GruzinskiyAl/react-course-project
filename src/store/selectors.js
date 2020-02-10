@@ -20,9 +20,19 @@ export const selectProductsIds = createSelector(
   state => state.allIds
 );
 
+export const selectCurrentIds = createSelector(
+  selectProducts,
+  state => state.currentIds
+);
+
 export const selectProductsList = createSelector(
   [selectProductsEntities, selectProductsIds],
   (products, allIds = []) => allIds.map(id => products[id])
+);
+
+export const selectCurrentProducts = createSelector(
+  [selectProductsEntities, selectCurrentIds],
+  (products, currentIds = []) => currentIds.map(id => products[id])
 );
 
 //basket

@@ -9,24 +9,26 @@ import "./App.css";
 import ProductsRoute from "./routes/ProductsRoute";
 import ProductRoute from "./routes/ProductRoute";
 import BasketRoute from "./routes/BasketRoute";
-import {useProducts} from "./hooks/useProducts";
 import NavBarContainer from "./containers/NavBarContainer";
 import ProductFormContainer from "./containers/ProductFormContainer";
 
 export default function App() {
-  const {products} = useProducts();
+
 
   return (
     <Router>
       <NavBarContainer/>
-      <ProductFormContainer />
+      <ProductFormContainer/>
       <Switch>
         <Route path="/products/:productId">
           <ProductRoute/>
         </Route>
         <Route path="/products">
-          <ProductsRoute products={products}/>
+          <ProductsRoute/>
         </Route>
+        {/*<Route path="/created-products">*/}
+        {/*  <CreatedProductsRoute/>*/}
+        {/*</Route>*/}
         <Route path="/basket">
           <BasketRoute/>
         </Route>
