@@ -9,7 +9,7 @@ import "./App.css";
 import ProductsRoute from "./routes/ProductsRoute";
 import ProductRoute from "./routes/ProductRoute";
 import BasketRoute from "./routes/BasketRoute";
-import NavBarContainer from "./containers/NavBarContainer";
+import AppHeaderContainer from "./containers/AppHeaderContainer";
 import ProductFormContainer from "./containers/ProductFormContainer";
 
 export default function App() {
@@ -17,7 +17,7 @@ export default function App() {
 
   return (
     <Router>
-      <NavBarContainer/>
+      <AppHeaderContainer/>
       <ProductFormContainer/>
       <Switch>
         <Route path="/products/:productId">

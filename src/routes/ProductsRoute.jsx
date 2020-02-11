@@ -9,11 +9,10 @@ export default function ProductsRoute() {
   const dispatch = useDispatch();
   const filtration = useSelector(selectFiltration);
   const {currentProducts} = useProducts(filtration);
-  // debugger
-  // useEffect(() => {
-  //   debugger
-  //   dispatch(clearCurrentProducts())
-  // }, [filtration, dispatch]);
+
+  useEffect(() => {
+    dispatch(clearCurrentProducts())
+  }, [filtration, dispatch]);
 
   if (!currentProducts || !currentProducts.length) {
     return <div>Loading..</div>;

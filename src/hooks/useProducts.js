@@ -10,10 +10,6 @@ export const useProducts = function (filtration) {
   const currentProducts = useSelector(selectCurrentProducts);
 
   useEffect(() => {
-    console.log(filtration)
-  }, [dispatch, filtration]);
-
-  useEffect(() => {
     const options = {
       queryParams: filtration
     };

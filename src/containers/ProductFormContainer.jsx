@@ -6,10 +6,14 @@ import {hideProductFormModal} from "../store/modals/actions";
 import {bindActionCreators} from "redux";
 import ProductForm from "../components/ProductForm";
 import {postProductData} from "../api/products";
+import {makeSelectorProductById} from "../store/selectors";
+import {useSelector} from "react-redux";
+import {useProduct} from "../hooks/useProduct";
 
-function FormContainer({modalState, formValues, hideProductFormModal, submit}) {
+function FormContainer({modalVisible, modalProductId, formValues, hideProductFormModal, submit}) {
   const [confirmLoading, setConfirmLoading] = useState(false);
-
+  const product = useProduct(modalProductId);
+  debugger
   const handleOf = useCallback( () => {
     submit('productForm');
     setConfirmLoading(true);
@@ -29,20 +33,21 @@ function FormContainer({modalState, formValues, hideProductFormModal, submit}) {
       <Modal
         title="Product Form"
         destroyOnClose={true}
-        visible={modalState.visible}
+        visible={modalVisible}
         cancelButtonProps={{disabled: confirmLoading}}
         onOk={handleOf}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
       >
-        <ProductForm disabled={confirmLoading}/>
+        <ProductForm disabled={confirmLoading} initialValues={{...product}}/>
       </Modal>
     </div>
   )
 }
 
 const mapStateToProps = state => ({
-  modalState: state.modals,
+  modalVisible: state.modals.visible,
+  modalProductId: state.modals.productId,
   formValues: getFormValues('productForm')(state)
 });
 

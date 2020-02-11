@@ -4,7 +4,7 @@ import {useSelector, useDispatch} from "react-redux";
 import {selectBasketFullPrice} from "../store/selectors";
 import {showProductFormModal} from "../store/modals/actions";
 
-export default function NavBarContainer() {
+export default function AppHeaderContainer() {
   const dispatch = useDispatch();
   const fullPrice = useSelector(selectBasketFullPrice);
 

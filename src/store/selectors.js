@@ -35,6 +35,11 @@ export const selectCurrentProducts = createSelector(
   (products, currentIds = []) => currentIds.map(id => products[id])
 );
 
+export const makeSelectorProductById = id => createSelector(
+  selectProductsEntities,
+  products => products[id]
+)
+
 //basket
 export const makeSelectBasketItemCount = id => createSelector(
   selectBasket,

@@ -7,40 +7,49 @@ import useProductActionHandlers from "../hooks/useProductActionHandlers";
 
 export default function Product({product}) {
   const matchBasket = useRouteMatch("/basket");
-  const {id, name, price, origin, createdAt, updatedAt} = product;
+  const {id, name, price, origin, createdAt, updatedAt, isEditable} = product;
 
   const basketProductsPrice = useBasketItemPrice(id);
   const countInBasket = useBasketItemCount(id);
   const {
     handleIncrementClick,
     handleDecrementClick,
-    handleDeleteClick
+    handleDeleteClick,
+    handleChangeClick
   } = useProductActionHandlers(id);
 
-  const actions = [
-    !matchBasket && (
+  const actions = (!isEditable)
+    ? [
       <Icon
-        key="shopping-cart"
-        type="shopping-cart"
-        onClick={handleIncrementClick}
+        key="edit"
+        type="edit"
+        onClick={handleChangeClick}
       />
-    ),
-    matchBasket && (
-      <Icon
-        key="delete"
-        type="delete"
-        onClick={handleDeleteClick}
-      />
-    ),
-    matchBasket && (
-      <Icon key="left" type="left" onClick={handleDecrementClick}/>
-    ),
+    ]
+    : [
+      !matchBasket && (
+        <Icon
+          key="shopping-cart"
+          type="shopping-cart"
+          onClick={handleIncrementClick}
+        />
+      ),
+      matchBasket && (
+        <Icon
+          key="delete"
+          type="delete"
+          onClick={handleDeleteClick}
+        />
+      ),
+      matchBasket && (
+        <Icon key="left" type="left" onClick={handleDecrementClick}/>
+      ),
 
-    matchBasket && <p>{countInBasket}</p>,
-    matchBasket && (
-      <Icon key="right" type="right" onClick={handleIncrementClick}/>
-    )
-  ].filter(Boolean);
+      matchBasket && <p>{countInBasket}</p>,
+      matchBasket && (
+        <Icon key="right" type="right" onClick={handleIncrementClick}/>
+      )
+    ].filter(Boolean);
 
   return (
     <Card
