@@ -4,8 +4,7 @@ import {submit} from 'redux-form';
 import Input from "./Input";
 import Select from "./Select";
 
-function ProductForm({disabled, initialValues}) {
-debugger
+function ProductForm({disabled}) {
   return (
     <form>
       <Field name="name" component={Input} type="text" label="Name:" disabled={disabled}/>
@@ -17,14 +16,7 @@ debugger
   )
 }
 
-function mapStateToProps(state, ownProps) {
-  debugger
-  return {
-    initialValues: ownProps.initialValues
-  }
-}
-
 export default reduxForm({
   form: 'productForm',
   onSubmit: submit
-},mapStateToProps)(ProductForm)
+})(ProductForm)

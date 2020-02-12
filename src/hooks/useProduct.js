@@ -4,7 +4,7 @@ import {useSelector} from "react-redux";
 import {makeSelectorProductById} from "../store/selectors";
 
 export const useProduct = productId => {
-  const selectProductById = useMemo(() => makeSelectorProductById(productId), [productId])
+  const selectProductById = useMemo(() => makeSelectorProductById(productId), [productId]);
   const productFromState = useSelector(selectProductById);
   const [product, setProduct] = useState(productFromState);
 

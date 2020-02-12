@@ -18,7 +18,7 @@ export default function Product({product}) {
     handleChangeClick
   } = useProductActionHandlers(id);
 
-  const actions = (!isEditable)
+  const actions = (isEditable)
     ? [
       <Icon
         key="edit"

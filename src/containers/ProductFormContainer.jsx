@@ -1,20 +1,22 @@
 import React, {useCallback, useState} from "react";
-import {Modal} from 'antd';
+import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {submit, getFormValues} from 'redux-form';
-import {hideProductFormModal} from "../store/modals/actions";
-import {bindActionCreators} from "redux";
-import ProductForm from "../components/ProductForm";
-import {postProductData} from "../api/products";
-import {makeSelectorProductById} from "../store/selectors";
-import {useSelector} from "react-redux";
-import {useProduct} from "../hooks/useProduct";
+import {Modal} from 'antd';
 
-function FormContainer({modalVisible, modalProductId, formValues, hideProductFormModal, submit}) {
+import {postProductData} from "../api/products";
+import ProductForm from "../components/ProductForm";
+import {useProduct} from "../hooks/useProduct";
+import useProductFormInitialValues from "../hooks/useProductFormInitialValues";
+import {hideProductFormModal} from "../store/modals/actions";
+
+const ProductFormContainer = ({modalVisible, modalProductId, formValues, hideProductFormModal, submit}) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const product = useProduct(modalProductId);
-  debugger
-  const handleOf = useCallback( () => {
+  const {product} = useProduct(modalProductId);
+  const initialValues = useProductFormInitialValues(product);
+  console.log(initialValues);
+
+  const handleOk = useCallback(() => {
     submit('productForm');
     setConfirmLoading(true);
     postProductData(formValues)
@@ -24,7 +26,7 @@ function FormContainer({modalVisible, modalProductId, formValues, hideProductFor
       })
   }, [hideProductFormModal, formValues, submit]);
 
-  const handleCancel = useCallback( () => {
+  const handleCancel = useCallback(() => {
     hideProductFormModal()
   }, [hideProductFormModal]);
 
@@ -35,11 +37,11 @@ function FormContainer({modalVisible, modalProductId, formValues, hideProductFor
         destroyOnClose={true}
         visible={modalVisible}
         cancelButtonProps={{disabled: confirmLoading}}
-        onOk={handleOf}
+        onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
       >
-        <ProductForm disabled={confirmLoading} initialValues={{...product}}/>
+        <ProductForm disabled={confirmLoading} initialValues={initialValues}/>
       </Modal>
     </div>
   )
@@ -61,4 +63,4 @@ const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FormContainer)
+)(ProductFormContainer)

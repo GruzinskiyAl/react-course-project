@@ -1,37 +1,25 @@
-import {useEffect, useMemo} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {getProductsData} from "../api/products";
-import {clearCurrentProducts, getProducts} from "../store/products/actions";
+import { getProducts} from "../store/products/actions";
 import {normalizeProducts} from "../utils/normalizers";
-import {selectCurrentProducts} from "../store/selectors";
+import {useEffect} from "react";
 
 export const useProducts = function (filtration) {
   const dispatch = useDispatch();
-  const currentProducts = useSelector(selectCurrentProducts);
 
   useEffect(() => {
     const options = {
       queryParams: filtration
     };
-    console.log(options);
-    if (!currentProducts.length) {
-      getProductsData(options)
-        .then(data => {
-          console.log('request');
-          return dispatch(getProducts(normalizeProducts(data)));
-        })
-        .catch(error => {
-          console.log("Error obtaining characters:", error);
-        });
-    }
-  }, [dispatch, filtration, currentProducts.length]);
 
+    getProductsData(options)
+      .then(data => normalizeProducts(data))
+      .then(data => {
 
-  return useMemo(
-    () => ({
-      currentProducts
-    }),
-    [currentProducts]
-  );
-  // return currentProducts
+        dispatch(getProducts(data));
+      })
+      .catch(error => {
+        console.log("Error obtaining characters:", error);
+      });
+  }, [filtration, dispatch]);
 };

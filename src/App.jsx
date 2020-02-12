@@ -11,9 +11,13 @@ import ProductRoute from "./routes/ProductRoute";
 import BasketRoute from "./routes/BasketRoute";
 import AppHeaderContainer from "./containers/AppHeaderContainer";
 import ProductFormContainer from "./containers/ProductFormContainer";
+import {useProducts} from "./hooks/useProducts";
+import {selectCurrentProducts, selectFiltration} from "./store/selectors";
+import {connect} from "react-redux";
+import CreatedProductsRoute from "./routes/CreatedProductsRoute";
 
-export default function App() {
-
+const App = ({ filtration, currentProducts }) => {
+  useProducts(filtration);
 
   return (
     <Router>
@@ -24,11 +28,11 @@ export default function App() {
           <ProductRoute/>
         </Route>
         <Route path="/products">
-          <ProductsRoute/>
+          <ProductsRoute currentProducts={currentProducts} />
         </Route>
-        {/*<Route path="/created-products">*/}
-        {/*  <CreatedProductsRoute/>*/}
-        {/*</Route>*/}
+        <Route path="/created-products">
+          <CreatedProductsRoute currentProducts={currentProducts}/>
+        </Route>
         <Route path="/basket">
           <BasketRoute/>
         </Route>
@@ -39,3 +43,10 @@ export default function App() {
     </Router>
   );
 };
+
+const mapStateToProps = state => ({
+  filtration: selectFiltration(state),
+  currentProducts: selectCurrentProducts(state),
+});
+
+export default connect(mapStateToProps)(App)
