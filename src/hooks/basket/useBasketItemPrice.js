@@ -1,5 +1,5 @@
 import {useMemo} from "react";
-import {makeSelectBasketItemPrice} from "../store/selectors";
+import {makeSelectBasketItemPrice} from "../../store/selectors";
 import {useSelector} from "react-redux";
 
 export default function useBasketItemPrice(id) {

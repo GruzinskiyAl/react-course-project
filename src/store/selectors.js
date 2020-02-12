@@ -3,11 +3,21 @@ import {createSelector} from "reselect";
 export const selectProducts = state => {
   return state.products
 };
+
 export const selectBasket = state => {
   return state.basket
 };
+
 export const selectFiltration = state => {
   return state.filtration
+};
+
+export const selectModal = state => {
+  return state.modal
+};
+
+export const selectForm = state => {
+  return state.form
 };
 
 //products
@@ -69,3 +79,9 @@ export const selectBasketFullPrice = createSelector(
     )
   }
 );
+
+//form
+// export const selectFormValues = createSelector(
+//   selectForm,
+//   form =>
+// )

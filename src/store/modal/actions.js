@@ -1,4 +1,4 @@
-import {SHOW_MODAL, HIDE_MODAL} from "./actionTypes";
+import {SHOW_MODAL, HIDE_MODAL, TOGGLE_LOADING} from "./actionTypes";
 
 export function showProductFormModal(productId) {
   return {
@@ -12,3 +12,11 @@ export function hideProductFormModal() {
     type: HIDE_MODAL
   }
 }
+
+export function toggleLoading(value) {
+  return {
+    type: TOGGLE_LOADING,
+    value
+  }
+}
+

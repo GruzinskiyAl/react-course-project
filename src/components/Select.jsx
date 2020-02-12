@@ -6,7 +6,7 @@ const {Option} = Select;
 
 const ORIGINS = ['usa', 'africa', 'asia', 'europe'];
 
-function SelectField(props) {
+const SelectField = props => {
   return (
     <Select {...props}>
       {ORIGINS.map(el => {
@@ -14,6 +14,6 @@ function SelectField(props) {
       })}
     </Select>
   )
-}
+};
 
 export default withInputRender(SelectField);

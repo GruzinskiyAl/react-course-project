@@ -1,66 +1,51 @@
-import React, {useCallback, useState} from "react";
-import {bindActionCreators} from "redux";
+import React from "react";
 import {connect} from "react-redux";
-import {submit, getFormValues} from 'redux-form';
-import {Modal} from 'antd';
+import {Button, Modal} from 'antd';
 
-import {postProductData} from "../api/products";
 import ProductForm from "../components/ProductForm";
-import {useProduct} from "../hooks/useProduct";
-import useProductFormInitialValues from "../hooks/useProductFormInitialValues";
-import {hideProductFormModal} from "../store/modals/actions";
+import {useProduct} from "../hooks/products/useProduct";
+import useProductFormInitialValues from "../hooks/form/useProductFormInitialValues";
+import useModalActionHandlers from "../hooks/modal/useModalActionHandlers";
+import {getFormValues} from "redux-form";
 
-const ProductFormContainer = ({modalVisible, modalProductId, formValues, hideProductFormModal, submit}) => {
-  const [confirmLoading, setConfirmLoading] = useState(false);
-  const {product} = useProduct(modalProductId);
+const ProductFormContainer = ({modal, formValues}) => {
+  console.log('render');
+  const {product} = useProduct(modal.productId);
   const initialValues = useProductFormInitialValues(product);
-  console.log(initialValues);
+  const {handleCancel, handleClear, handleSubmit} = useModalActionHandlers();
 
-  const handleOk = useCallback(() => {
-    submit('productForm');
-    setConfirmLoading(true);
-    postProductData(formValues)
-      .then((data) => {
-        setConfirmLoading(false);
-        hideProductFormModal();
-      })
-  }, [hideProductFormModal, formValues, submit]);
 
-  const handleCancel = useCallback(() => {
-    hideProductFormModal()
-  }, [hideProductFormModal]);
 
   return (
     <div>
       <Modal
         title="Product Form"
         destroyOnClose={true}
-        visible={modalVisible}
-        cancelButtonProps={{disabled: confirmLoading}}
-        onOk={handleOk}
-        confirmLoading={confirmLoading}
+        visible={true}
+        confirmLoading={modal.loading}
         onCancel={handleCancel}
+        footer={[
+          <Button key="clear" loading={modal.loading} onClick={handleClear}>
+            Clear
+          </Button>,
+          <Button
+            key="submit" type="primary" loading={modal.loading}
+            onClick={() => handleSubmit(formValues, modal.productId)}
+          >
+            Submit
+          </Button>,
+        ]}
       >
-        <ProductForm disabled={confirmLoading} initialValues={initialValues}/>
+        <ProductForm disabled={modal.loading} initialValues={initialValues}/>
       </Modal>
     </div>
   )
-}
-
-const mapStateToProps = state => ({
-  modalVisible: state.modals.visible,
-  modalProductId: state.modals.productId,
-  formValues: getFormValues('productForm')(state)
-});
-
-const actions = {
-  hideProductFormModal,
-  submit
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
+const mapStateToProps = state => ({
+    modal: state.modal,
+    formValues: getFormValues('productForm')(state)
+  })
+;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProductFormContainer)
+export default connect(mapStateToProps)(ProductFormContainer)

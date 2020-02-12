@@ -3,8 +3,9 @@ import {reduxForm, Field} from "redux-form";
 import {submit} from 'redux-form';
 import Input from "./Input";
 import Select from "./Select";
+import {formValidator} from "../utils/validators";
 
-function ProductForm({disabled}) {
+const ProductForm = ({disabled}) => {
   return (
     <form>
       <Field name="name" component={Input} type="text" label="Name:" disabled={disabled}/>
@@ -14,9 +15,10 @@ function ProductForm({disabled}) {
       <Field name="origin" component={Select} label="Origin: " disabled={disabled}/>
     </form>
   )
-}
+};
 
 export default reduxForm({
   form: 'productForm',
-  onSubmit: submit
+  onSubmit: submit,
+  validate: formValidator
 })(ProductForm)

@@ -1,7 +1,7 @@
 import {useState, useEffect, useMemo} from "react";
-import {getProductData} from '../api/products'
+import {getProductData} from '../../api/products'
 import {useSelector} from "react-redux";
-import {makeSelectorProductById} from "../store/selectors";
+import {makeSelectorProductById} from "../../store/selectors";
 
 export const useProduct = productId => {
   const selectProductById = useMemo(() => makeSelectorProductById(productId), [productId]);

@@ -9,7 +9,7 @@ export const getProductsData = function ({queryParams}) {
   const url = new URL(`${process.env.REACT_APP_BASE_API_URL}/products`);
   Object.keys(queryParams).forEach(key => url.searchParams.append(key, queryParams[key]));
 
-  return fetch(url)
+  return fetch(url, {headers})
     .then(result => result.json())
     .then(json => json.items)
     .catch(error => console.log(error))
@@ -26,4 +26,10 @@ export const postProductData = function (data) {
   const postData = {product: data};
   const url = new URL(`${process.env.REACT_APP_BASE_API_URL}/products`);
   return axios.post(url, postData, {headers})
+};
+
+export const patchProductData = function (data, id) {
+  const postData = {product: data};
+  const url = new URL(`${process.env.REACT_APP_BASE_API_URL}/products${id}`);
+  return axios.patch(url, postData, {headers})
 };

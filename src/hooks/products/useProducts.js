@@ -1,7 +1,7 @@
 import {useDispatch} from "react-redux";
-import {getProductsData} from "../api/products";
-import { getProducts} from "../store/products/actions";
-import {normalizeProducts} from "../utils/normalizers";
+import {getProductsData} from "../../api/products";
+import { getProducts} from "../../store/products/actions";
+import {normalizeProducts} from "../../utils/normalizers";
 import {useEffect} from "react";
 
 export const useProducts = function (filtration) {

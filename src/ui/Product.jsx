@@ -1,9 +1,9 @@
 import React from "react";
 import {Card, Icon} from "antd";
 import {Link, useRouteMatch} from "react-router-dom";
-import useBasketItemPrice from "../hooks/useBasketItemPrice";
-import useBasketItemCount from "../hooks/useBasketItemCount";
-import useProductActionHandlers from "../hooks/useProductActionHandlers";
+import useBasketItemPrice from "../hooks/basket/useBasketItemPrice";
+import useBasketItemCount from "../hooks/basket/useBasketItemCount";
+import useProductActionHandlers from "../hooks/products/useProductActionHandlers";
 
 export default function Product({product}) {
   const matchBasket = useRouteMatch("/basket");

@@ -11,24 +11,24 @@ import ProductRoute from "./routes/ProductRoute";
 import BasketRoute from "./routes/BasketRoute";
 import AppHeaderContainer from "./containers/AppHeaderContainer";
 import ProductFormContainer from "./containers/ProductFormContainer";
-import {useProducts} from "./hooks/useProducts";
+import {useProducts} from "./hooks/products/useProducts";
 import {selectCurrentProducts, selectFiltration} from "./store/selectors";
 import {connect} from "react-redux";
 import CreatedProductsRoute from "./routes/CreatedProductsRoute";
 
-const App = ({ filtration, currentProducts }) => {
+const App = ({filtration, currentProducts, modalVisible}) => {
   useProducts(filtration);
 
   return (
     <Router>
       <AppHeaderContainer/>
-      <ProductFormContainer/>
+      {modalVisible && <ProductFormContainer/>}
       <Switch>
         <Route path="/products/:productId">
           <ProductRoute/>
         </Route>
         <Route path="/products">
-          <ProductsRoute currentProducts={currentProducts} />
+          <ProductsRoute currentProducts={currentProducts}/>
         </Route>
         <Route path="/created-products">
           <CreatedProductsRoute currentProducts={currentProducts}/>
@@ -47,6 +47,7 @@ const App = ({ filtration, currentProducts }) => {
 const mapStateToProps = state => ({
   filtration: selectFiltration(state),
   currentProducts: selectCurrentProducts(state),
+  modalVisible: state.modal.visible,
 });
 
 export default connect(mapStateToProps)(App)
