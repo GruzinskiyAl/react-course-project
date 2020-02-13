@@ -8,13 +8,8 @@ export default ({ currentProducts }) => {
 
   useEffect(() => {
     dispatch(setFilters({editable: true}));
-    return () => {
-      dispatch(setFilters({editable: false}))
-    }
+    return () => dispatch(setFilters({editable: false}))
   }, [dispatch]);
 
-  if (!currentProducts || !currentProducts.length) {
-    return <div>Loading..</div>;
-  }
-  return <ProductList products={currentProducts}/>;
+  return (!currentProducts || !currentProducts.length)? <div>Loading..</div>: <ProductList products={currentProducts}/>;
 };

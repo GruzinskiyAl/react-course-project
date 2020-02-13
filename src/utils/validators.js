@@ -2,7 +2,6 @@ import {
   isRequired,
   combineValidators,
   composeValidators,
-  isAlphabetic,
   isNumeric,
   hasLengthBetween
 } from 'revalidate'
@@ -11,12 +10,11 @@ import {
 export const formValidator = combineValidators({
   name: composeValidators(
     isRequired,
-    isAlphabetic,
     hasLengthBetween(3, 20)
   )('Name'),
   price: composeValidators(
-    isNumeric,
     isRequired,
+    isNumeric,
   )('Price'),
   origin: isRequired('Origin')
 });

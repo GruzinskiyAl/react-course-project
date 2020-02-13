@@ -9,12 +9,9 @@ import useModalActionHandlers from "../hooks/modal/useModalActionHandlers";
 import {getFormValues} from "redux-form";
 
 const ProductFormContainer = ({modal, formValues}) => {
-  console.log('render');
   const {product} = useProduct(modal.productId);
   const initialValues = useProductFormInitialValues(product);
   const {handleCancel, handleClear, handleSubmit} = useModalActionHandlers();
-
-
 
   return (
     <div>

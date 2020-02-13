@@ -5,7 +5,7 @@ export const withInputRender = Wrapper => ({input, label, children, meta, ...pro
     <label>
       <div>{label}</div>
       <Wrapper {...input} {...props} children={children}/>
-      {meta.touched && meta.error && <span>{meta.error}</span>}
+      {meta.touched && meta.error && <span style={{color:'red'}}>{meta.error}</span>}
     </label>
   );
 };

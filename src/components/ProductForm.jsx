@@ -20,5 +20,6 @@ const ProductForm = ({disabled}) => {
 export default reduxForm({
   form: 'productForm',
   onSubmit: submit,
-  validate: formValidator
+  validate: formValidator,
+  touchOnBlur: false
 })(ProductForm)
