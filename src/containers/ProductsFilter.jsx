@@ -3,18 +3,18 @@ import OriginFilter from "../ui/filtration/OriginFilter";
 import PriceFilter from "../ui/filtration/PriceFilter";
 import {Button} from 'antd';
 import {connect} from "react-redux";
-import {setFilters} from "../store/filtration/actions";
+import {setProductsFilters, setEditableProductsFilters} from "../store/filtration/actions";
 
 const ORIGINS = ['usa', 'africa', 'asia', 'europe'];
 
-function ProductsFilter({filtration, setFilters}) {
+const ProductsFilter = ({filtration, setProductsFilters, setEditableProductsFilters, isForEditable}) => {
   const [origins, setOrigins] = useState(filtration.origins);
   const [minPrice, setMinPrice] = useState(filtration.minPrice);
   const [maxPrice, setMaxPrice] = useState(filtration.maxPrice);
 
   const handleSubmit = useCallback(() => {
-    setFilters({origins, minPrice, maxPrice})
-  }, [origins, minPrice, maxPrice, setFilters]);
+    (() => isForEditable ? setEditableProductsFilters : setProductsFilters)({origins, minPrice, maxPrice})
+  }, [origins, minPrice, maxPrice, setProductsFilters, setEditableProductsFilters, isForEditable]);
 
   return (
     <div className={'filter-block'}>
@@ -25,17 +25,19 @@ function ProductsFilter({filtration, setFilters}) {
       <Button type="primary" onClick={handleSubmit}>Submit</Button>
     </div>
   )
-}
+};
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {
-    filtration: state.filtration,
+    productsFiltration: state.filtration.products,
+    editableProductsFiltration: state.filtration.editableProducts,
   };
-}
+};
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = dispatch => {
   return {
-    setFilters: data => dispatch(setFilters(data))
+    setProductsFilters: data => dispatch(setProductsFilters(data)),
+    setEditableProductsFilters: data => dispatch(setEditableProductsFilters(data))
   }
 }
 
