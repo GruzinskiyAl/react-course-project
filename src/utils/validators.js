@@ -6,7 +6,6 @@ import {
   hasLengthBetween
 } from 'revalidate'
 
-
 export const formValidator = combineValidators({
   name: composeValidators(
     isRequired,
@@ -15,6 +14,7 @@ export const formValidator = combineValidators({
   price: composeValidators(
     isRequired,
     isNumeric,
+    value => value > 0
   )('Price'),
   origin: isRequired('Origin')
 });

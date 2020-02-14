@@ -1,16 +1,14 @@
 import React from "react";
 import {connect} from "react-redux";
+import {getFormValues, isValid} from "redux-form";
 import {Button, Modal} from 'antd';
 
 import ProductForm from "../components/ProductForm";
-import {useProduct} from "../hooks/products/useProduct";
 import useProductFormInitialValues from "../hooks/form/useProductFormInitialValues";
 import useModalActionHandlers from "../hooks/modal/useModalActionHandlers";
-import {getFormValues} from "redux-form";
 
-const ProductFormContainer = ({modal, formValues}) => {
-  const {product} = useProduct(modal.productId);
-  const initialValues = useProductFormInitialValues(product);
+const ProductFormContainer = ({modal, formValues, isValid}) => {
+  const initialValues = useProductFormInitialValues(modal.productId);
   const {handleCancel, handleClear, handleSubmit} = useModalActionHandlers();
 
   return (
@@ -27,7 +25,7 @@ const ProductFormContainer = ({modal, formValues}) => {
           </Button>,
           <Button
             key="submit" type="primary" loading={modal.loading}
-            onClick={() => handleSubmit(formValues, modal.productId)}
+            onClick={() => handleSubmit(formValues, modal.productId, isValid)}
           >
             Submit
           </Button>,
@@ -41,7 +39,8 @@ const ProductFormContainer = ({modal, formValues}) => {
 
 const mapStateToProps = state => ({
     modal: state.modal,
-    formValues: getFormValues('productForm')(state)
+    formValues: getFormValues('productForm')(state),
+    isValid: isValid('productForm')(state)
   })
 ;
 

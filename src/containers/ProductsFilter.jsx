@@ -1,8 +1,9 @@
 import React, {useState, useCallback} from "react";
-import OriginFilter from "../ui/filtration/OriginFilter";
-import PriceFilter from "../ui/filtration/PriceFilter";
-import {Button} from 'antd';
 import {connect} from "react-redux";
+import {Button} from 'antd';
+
+import PriceFilter from "../ui/filtration/PriceFilter";
+import OriginFilter from "../ui/filtration/OriginFilter";
 import {setProductsFilters, setEditableProductsFilters} from "../store/filtration/actions";
 
 const ORIGINS = ['usa', 'africa', 'asia', 'europe'];
@@ -10,20 +11,18 @@ const ORIGINS = ['usa', 'africa', 'asia', 'europe'];
 const ProductsFilter = (
   {productsFiltration, editableProductsFiltration, setProductsFilters, setEditableProductsFilters, isForEditable}
 ) => {
-  const [origins, setOrigins] = useState(
-    isForEditable ? editableProductsFiltration.origins : productsFiltration.origins
-  );
-  const [minPrice, setMinPrice] = useState(
-    isForEditable ? editableProductsFiltration.minPrice : productsFiltration.minPrice
-  );
-  const [maxPrice, setMaxPrice] = useState(
-    isForEditable ? editableProductsFiltration.maxPrice : productsFiltration.maxPrice
-  );
+  const [targetFiltration, targetAction] = isForEditable
+    ? [editableProductsFiltration, setEditableProductsFilters]
+    : [productsFiltration, setProductsFilters];
+
+  const [origins, setOrigins] = useState(targetFiltration.origins);
+  const [minPrice, setMinPrice] = useState(targetFiltration.minPrice);
+  const [maxPrice, setMaxPrice] = useState(targetFiltration.maxPrice);
 
   const handleSubmit = useCallback(() => {
     const data = {origins, minPrice, maxPrice};
-    (() => isForEditable ? setEditableProductsFilters : setProductsFilters)()(data)
-  }, [origins, minPrice, maxPrice, setProductsFilters, setEditableProductsFilters, isForEditable]);
+    targetAction(data)
+  }, [origins, minPrice, maxPrice, targetAction]);
 
   return (
     <div className={'filter-block'}>

@@ -1,8 +1,8 @@
 import {
   GET_PRODUCTS,
   GET_EDITABLE_PRODUCTS,
-  CLEAR_CURRENT_PRODUCTS,
-  CLEAR_CURRENT_EDITABLE_PRODUCTS
+  CREATE_PRODUCT,
+  UPDATE_PRODUCT
 } from "./actionTypes";
 
 export function getProducts(data) {
@@ -19,14 +19,16 @@ export function getEditableProducts(data) {
   };
 }
 
-export function clearCurrentProducts() {
+export function createNewProduct(data) {
   return {
-    type: CLEAR_CURRENT_PRODUCTS
+    type: CREATE_PRODUCT,
+    data
   }
 }
 
-export function clearCurrentEditableProducts() {
+export function updateProduct(data) {
   return {
-    type: CLEAR_CURRENT_EDITABLE_PRODUCTS
+    type: UPDATE_PRODUCT,
+    data
   }
 }
