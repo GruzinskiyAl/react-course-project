@@ -7,13 +7,22 @@ import {setProductsFilters, setEditableProductsFilters} from "../store/filtratio
 
 const ORIGINS = ['usa', 'africa', 'asia', 'europe'];
 
-const ProductsFilter = ({filtration, setProductsFilters, setEditableProductsFilters, isForEditable}) => {
-  const [origins, setOrigins] = useState(filtration.origins);
-  const [minPrice, setMinPrice] = useState(filtration.minPrice);
-  const [maxPrice, setMaxPrice] = useState(filtration.maxPrice);
+const ProductsFilter = (
+  {productsFiltration, editableProductsFiltration, setProductsFilters, setEditableProductsFilters, isForEditable}
+) => {
+  const [origins, setOrigins] = useState(
+    isForEditable ? editableProductsFiltration.origins : productsFiltration.origins
+  );
+  const [minPrice, setMinPrice] = useState(
+    isForEditable ? editableProductsFiltration.minPrice : productsFiltration.minPrice
+  );
+  const [maxPrice, setMaxPrice] = useState(
+    isForEditable ? editableProductsFiltration.maxPrice : productsFiltration.maxPrice
+  );
 
   const handleSubmit = useCallback(() => {
-    (() => isForEditable ? setEditableProductsFilters : setProductsFilters)({origins, minPrice, maxPrice})
+    const data = {origins, minPrice, maxPrice};
+    (() => isForEditable ? setEditableProductsFilters : setProductsFilters)()(data)
   }, [origins, minPrice, maxPrice, setProductsFilters, setEditableProductsFilters, isForEditable]);
 
   return (
@@ -39,7 +48,7 @@ const mapDispatchToProps = dispatch => {
     setProductsFilters: data => dispatch(setProductsFilters(data)),
     setEditableProductsFilters: data => dispatch(setEditableProductsFilters(data))
   }
-}
+};
 
 export default connect(
   mapStateToProps,

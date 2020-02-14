@@ -30,6 +30,6 @@ export const postProductData = function (data) {
 
 export const patchProductData = function (data, id) {
   const postData = {product: data};
-  const url = new URL(`${process.env.REACT_APP_BASE_API_URL}/products${id}`);
+  const url = new URL(`${process.env.REACT_APP_BASE_API_URL}/products/${id}`);
   return axios.patch(url, postData, {headers})
 };

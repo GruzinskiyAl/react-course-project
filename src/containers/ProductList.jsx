@@ -12,7 +12,7 @@ export default function ProductList({products}) {
   return (
     <Layout>
       <Sider theme={'light'}>
-        <ProductsFilter/>
+        <ProductsFilter isForEditable={matchCreatedProducts}/>
       </Sider>
       <Content theme={'light'}>
         <div className={'product-list'}>

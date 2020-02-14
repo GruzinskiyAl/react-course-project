@@ -19,12 +19,12 @@ export default function filtrationReducer(state = initState, action) {
   if (action.type === SET_PRODUCTS_FILTERS) {
     return {
       ...state,
-      products: {...action.data}
+      products: {...state.products, ...action.data}
     }
   } else if (action.type === SET_EDITABLE_PRODUCTS_FILTERS) {
     return {
       ...state,
-      editableProducts: {...action.data}
+      editableProducts: {...state.editableProducts, ...action.data}
     }
   }
   return state

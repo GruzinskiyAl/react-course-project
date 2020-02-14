@@ -9,28 +9,30 @@ export const initState = {
   byId: {},
   allIds: [],
   currentProductsIds: [],
-  currentEditableProductsId: []
+  currentEditableProductsIds: []
 };
 
 function saveProducts(state, action) {
   return {
+    ...state,
     byId: {
       ...state.byId,
       ...action.byId
     },
     allIds: [...state.allIds, ...action.allIds.filter(el => !state.allIds.includes(el))],
-    currentProductsIds: [...action.allIds]
+    currentProductsIds: [...action.allIds],
   }
 }
 
 function saveEditableProducts(state, action) {
   return {
+    ...state,
     byId: {
       ...state.byId,
       ...action.byId
     },
     allIds: [...state.allIds, ...action.allIds.filter(el => !state.allIds.includes(el))],
-    currentEditableProductsId: [...action.allIds]
+    currentEditableProductsIds: [...action.allIds]
   }
 }
 
@@ -44,7 +46,7 @@ function clearCurrentProductsIds(state) {
 function clearCurrentEditableProductsIds(state) {
   return {
     ...state,
-    currentEditableProductsId: []
+    currentEditableProductsIds: []
   }
 }
 
@@ -58,6 +60,7 @@ export default function productsReducer(state = initState, action) {
       return saveEditableProducts(state, action);
     case(CLEAR_CURRENT_EDITABLE_PRODUCTS):
       return clearCurrentEditableProductsIds(state);
+    default:
+      return state
   }
-  return state
 }
