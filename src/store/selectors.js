@@ -3,11 +3,21 @@ import {createSelector} from "reselect";
 export const selectProducts = state => {
   return state.products
 };
+
 export const selectBasket = state => {
   return state.basket
 };
+
 export const selectFiltration = state => {
   return state.filtration
+};
+
+export const selectModal = state => {
+  return state.modal
+};
+
+export const selectForm = state => {
+  return state.form
 };
 
 //products
@@ -15,14 +25,30 @@ export const selectProductsEntities = createSelector(
   selectProducts,
   state => state.byId
 );
-export const selectProductsIds = createSelector(
+
+export const selectCurrentProductsIds = createSelector(
   selectProducts,
-  state => state.allIds
+  state => state.currentProductsIds
 );
 
-export const selectProductsList = createSelector(
-  [selectProductsEntities, selectProductsIds],
-  (products, allIds = []) => allIds.map(id => products[id])
+export const selectCurrentEditableProductsIds = createSelector(
+  selectProducts,
+  state => state.currentEditableProductsIds
+);
+
+export const selectCurrentProducts = createSelector(
+  [selectProductsEntities, selectCurrentProductsIds],
+  (products, ids = []) => ids.map(id => products[id])
+);
+
+export const selectCurrentEditableProducts = createSelector(
+  [selectProductsEntities, selectCurrentEditableProductsIds],
+  (products, ids = []) => ids.map(id => products[id])
+);
+
+export const makeSelectorProductById = id => createSelector(
+  selectProductsEntities,
+  products => products[id]
 );
 
 //basket
@@ -44,7 +70,7 @@ export const selectBasketProductsList = createSelector(
 export const makeSelectBasketItemPrice = id =>
   createSelector(
     [selectProductsEntities, selectBasket],
-    (products, basketItems) => products[id].price * basketItems[id]
+    (products, basketItems) => (products[id]) ? products[id].price * basketItems[id] : 0
   );
 
 export const selectBasketFullPrice = createSelector(
@@ -54,3 +80,16 @@ export const selectBasketFullPrice = createSelector(
     )
   }
 );
+
+// filtrations
+export const selectProductsFilters = createSelector(
+  selectFiltration,
+  filtration => filtration.products
+);
+
+export const selectEditableProductsFilters = createSelector(
+  selectFiltration,
+  filtration => filtration.editableProducts
+);
+
+
