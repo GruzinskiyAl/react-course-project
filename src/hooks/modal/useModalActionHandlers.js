@@ -4,7 +4,8 @@ import {submit, reset} from 'redux-form';
 
 import {hideProductFormModal, toggleLoading} from "../../store/modal/actions";
 import {patchProductData, postProductData} from "../../api/products";
-import {normalizeProducts} from "../../utils/normalizers";
+import {normalizeProduct} from "../../utils/normalizers";
+import {createProduct, updateProduct} from "../../store/products/actions";
 
 const makeRequest = (data, id) => {
   return id ? patchProductData(data, id) : postProductData(data)
@@ -18,15 +19,17 @@ export default function useModalActionHandlers() {
   }, [dispatch]);
 
   const handleSubmit = useCallback((formValues, productId, isValid) => {
+    const action = (productId) ? updateProduct : createProduct;
     dispatch(submit('productForm'));
     dispatch(toggleLoading(true));
     return isValid
       ? makeRequest(formValues, productId)
-        .then((data) => {
-          console.log(normalizeProducts(data));
+        .then(res => {
           dispatch(toggleLoading(false));
           dispatch(hideProductFormModal());
+          return normalizeProduct(res.data)
         })
+        .then(data => dispatch(action(data)))
         .catch(error => {
           console.log(error);
           dispatch(toggleLoading(false));

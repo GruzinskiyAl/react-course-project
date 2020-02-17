@@ -19,16 +19,16 @@ export function getEditableProducts(data) {
   };
 }
 
-export function createNewProduct(data) {
+export function createProduct(data) {
   return {
     type: CREATE_PRODUCT,
-    data
+    ...data
   }
 }
 
 export function updateProduct(data) {
   return {
     type: UPDATE_PRODUCT,
-    data
+    ...data
   }
 }
