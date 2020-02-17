@@ -37,10 +37,17 @@ function saveEditableProducts(state, action) {
   }
 }
 
-// const createProduct = (state, action) => ({
-//   ...state,
-//   byId: {...state.byId, }
-// });
+const createProduct = (state, action) => ({
+  ...state,
+  byId: {...state.byId, ...action.byId},
+  allIds: [...state.allIds, action.id],
+  currentEditableProductsIds: [...state.currentEditableProductsIds, action.id]
+});
+
+const updateProduct = (state, action) => ({
+  ...state,
+  byId: {...state.byId, ...action.byId}
+});
 
 export default function productsReducer(state = initState, action) {
   switch (action.type) {
@@ -48,6 +55,10 @@ export default function productsReducer(state = initState, action) {
       return saveProducts(state, action);
     case(GET_EDITABLE_PRODUCTS):
       return saveEditableProducts(state, action);
+    case CREATE_PRODUCT:
+      return createProduct(state, action);
+    case UPDATE_PRODUCT:
+      return updateProduct(state, action);
     default:
       return state
   }
