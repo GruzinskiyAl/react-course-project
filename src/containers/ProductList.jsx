@@ -14,13 +14,15 @@ export default function ProductList({products}) {
       <Sider theme={'light'}>
         <ProductsFilter isForEditable={matchCreatedProducts}/>
       </Sider>
-      <Content theme={'light'}>
-        <div className={'product-list'}>
-          {products.map(product => (
-            <Product key={product.id} product={product}/>
-          ))}
-        </div>
-      </Content>
+      {!(products && products.length)
+        ? <div>Loading..</div>
+        : <Content theme={'light'}>
+          <div className={'product-list'}>
+            {products.map(product => (
+              <Product key={product.id} product={product}/>
+            ))}
+          </div>
+        </Content>}
     </Layout>
   );
 }

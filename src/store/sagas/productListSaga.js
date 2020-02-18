@@ -17,6 +17,6 @@ function* worker () {
 }
 
 export default function* productListSaga() {
-  yield fork(worker);
+  // yield fork(worker);
   yield takeEvery(GET_PRODUCTS, worker);
 }
