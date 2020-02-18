@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from "react";
+import React, {useState, useCallback, useEffect} from "react";
 import {connect} from "react-redux";
 import {Button} from 'antd';
 
@@ -19,7 +19,7 @@ const ProductsFilter = (
   const [minPrice, setMinPrice] = useState(targetFiltration.minPrice);
   const [maxPrice, setMaxPrice] = useState(targetFiltration.maxPrice);
 
-  const handleSubmit = useCallback(() => {
+  useEffect(() => {
     const data = {origins, minPrice, maxPrice};
     targetAction(data)
   }, [origins, minPrice, maxPrice, targetAction]);
@@ -30,7 +30,6 @@ const ProductsFilter = (
       <OriginFilter options={ORIGINS} origins={origins} setOrigins={setOrigins}/>
       <div>Price filter:</div>
       <PriceFilter minPrice={minPrice} maxPrice={maxPrice} setMinPrice={setMinPrice} setMaxPrice={setMaxPrice}/>
-      <Button type="primary" onClick={handleSubmit}>Submit</Button>
     </div>
   )
 };

@@ -1,6 +1,6 @@
 import {
-  GET_PRODUCTS,
-  GET_EDITABLE_PRODUCTS,
+  SAVE_PRODUCTS,
+  SAVE_EDITABLE_PRODUCTS,
   CREATE_PRODUCT,
   UPDATE_PRODUCT
 } from "./actionTypes";
@@ -51,9 +51,9 @@ const updateProduct = (state, action) => ({
 
 export default function productsReducer(state = initState, action) {
   switch (action.type) {
-    case(GET_PRODUCTS):
+    case(SAVE_PRODUCTS):
       return saveProducts(state, action);
-    case(GET_EDITABLE_PRODUCTS):
+    case(SAVE_EDITABLE_PRODUCTS):
       return saveEditableProducts(state, action);
     case CREATE_PRODUCT:
       return createProduct(state, action);

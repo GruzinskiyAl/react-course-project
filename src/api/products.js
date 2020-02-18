@@ -9,15 +9,15 @@ export const getProductsData = function ({queryParams}) {
   const url = new URL(`${process.env.REACT_APP_BASE_API_URL}/products`);
   Object.keys(queryParams).forEach(key => url.searchParams.append(key, queryParams[key]));
 
-  return fetch(url, {headers})
-    .then(result => result.json())
-    .then(json => json.items)
+  return axios.get(url, {headers})
+    .then(result => result.data)
+    .then(data => data?.items)
     .catch(error => console.log(error))
 };
 
-export const getProductData = function (productId, options) {
+export const getProductData = function (productId) {
   const url = new URL(`${process.env.REACT_APP_BASE_API_URL}/products/${productId}`);
-  return fetch(url, options)
+  return axios.get(url, {headers})
     .then(result => result.json())
     .catch(error => console.log(error))
 };

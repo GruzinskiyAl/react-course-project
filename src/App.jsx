@@ -22,7 +22,7 @@ import {connect} from "react-redux";
 import CreatedProductsRoute from "./routes/CreatedProductsRoute";
 
 const App = ({productsFilters, editableProductsFilters, currentProducts, currentEditableProducts, modalVisible}) => {
-  useProducts(productsFilters, editableProductsFilters);
+  // useProducts(productsFilters, editableProductsFilters);
 
   return (
     <Router>

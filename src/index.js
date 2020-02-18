@@ -9,14 +9,17 @@ import logger from 'redux-logger'
 
 import './index.css';
 import App from './App';
+
 import rootReducer from "./store/reducer";
 import * as serviceWorker from './serviceWorker';
+import rootSaga from "./store/sagas/rootSaga";
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(logger, sagaMiddleware))
 );
+sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>

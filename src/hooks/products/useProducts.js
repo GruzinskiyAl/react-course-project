@@ -1,6 +1,6 @@
 import {useDispatch} from "react-redux";
 import {getProductsData} from "../../api/products";
-import {getProducts, getEditableProducts} from "../../store/products/actions";
+import {saveProducts, saveEditableProducts} from "../../store/products/actions";
 import {normalizeProducts} from "../../utils/normalizers";
 import {useEffect} from "react";
 
@@ -17,7 +17,7 @@ export const useProducts = function (productsFilters, editableProductsFilters) {
       queryParams: editableProductsFilters
     };
     makeRequest(options)
-      .then(data => dispatch(getEditableProducts(data)))
+      .then(data => dispatch(saveEditableProducts(data)))
       .catch(error => {
         console.log("Error obtaining characters:", error);
       });
@@ -29,7 +29,7 @@ export const useProducts = function (productsFilters, editableProductsFilters) {
       queryParams: productsFilters
     };
     makeRequest(options)
-      .then(data => dispatch(getProducts(data)))
+      .then(data => dispatch(saveProducts(data)))
       .catch(error => {
         console.log("Error obtaining characters:", error);
       });
