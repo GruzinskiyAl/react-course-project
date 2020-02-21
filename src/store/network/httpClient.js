@@ -9,7 +9,7 @@ const httpClient = axios.create({
   },
   paramsSerializer: (params) =>
     stringify(params, {
-      arrayFormat: 'repeat'
+      arrayFormat: 'comma'
     })
 });
 

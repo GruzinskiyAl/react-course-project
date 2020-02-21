@@ -1,7 +1,7 @@
 import {useCallback} from 'react';
 import {useDispatch} from "react-redux";
 import {decrementBasketItemCount, dropBasketItem, incrementBasketItemCount} from "../../store/basket/actions";
-import {showProductFormModal} from "../../store/modal/actions";
+import {ModalActions} from "../../store/modal/actions";
 
 export default function useProductActionHandler(id) {
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ export default function useProductActionHandler(id) {
   }, [id, dispatch]);
 
   const handleChangeClick = useCallback(() => {
-    dispatch(showProductFormModal(id));
+    dispatch(ModalActions.showProductFormModal(id));
   }, [id, dispatch]);
 
   return {

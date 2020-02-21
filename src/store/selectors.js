@@ -1,24 +1,9 @@
 import {createSelector} from "reselect";
+import {getFormValues, isValid} from "redux-form";
 
-export const selectProducts = state => {
-  return state.products
-};
-
-export const selectBasket = state => {
-  return state.basket
-};
-
-export const selectFiltration = state => {
-  return state.filtration
-};
-
-export const selectModal = state => {
-  return state.modal
-};
-
-export const selectForm = state => {
-  return state.form
-};
+export const selectProducts = state => state.products;
+export const selectBasket = state => state.basket;
+export const selectFiltration = state => state.filtration;
 
 //products
 export const selectProductsEntities = createSelector(
@@ -92,4 +77,7 @@ export const selectEditableProductsFilters = createSelector(
   filtration => filtration.editableProducts
 );
 
+// form
+export const selectProductFormIsValid = state => isValid('productForm')(state);
 
+export const selectProductFormValues = state => ({product: getFormValues('productForm')(state)});

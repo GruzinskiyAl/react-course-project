@@ -1,4 +1,4 @@
-import {SHOW_MODAL, HIDE_MODAL, TOGGLE_LOADING} from "./actionTypes";
+import {ModalActionTypes} from "./actions";
 
 const initState = {
   visible: false,
@@ -15,22 +15,23 @@ const showModal = (state, action) => ({
 const hideModal = state => ({
   ...state,
   visible: false,
+  loading: false,
   productId: null
 });
 
-const toggleLoading = state => ({
+const setLoading = (state, action) => ({
   ...state,
-  loading: !state.loading
+  loading: action.loading
 });
 
 export default function modalReducer(state = initState, action) {
   switch (action.type) {
-    case SHOW_MODAL:
+    case ModalActionTypes.SHOW_MODAL:
       return showModal(state, action);
-    case HIDE_MODAL:
+    case ModalActionTypes.HIDE_MODAL:
       return hideModal(state);
-    case TOGGLE_LOADING:
-      return toggleLoading(state);
+    case ModalActionTypes.SET_LOADING:
+      return setLoading(state, action);
     default:
       return state
   }

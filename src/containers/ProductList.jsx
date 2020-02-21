@@ -1,28 +1,15 @@
 import React from "react";
-import {useRouteMatch} from "react-router-dom";
-import ProductsFilter from "./ProductsFilter";
-import {Layout} from 'antd';
 import Product from "../ui/Product";
 
-const {Sider, Content} = Layout;
 
 export default function ProductList({products}) {
-  const matchCreatedProducts = useRouteMatch("/created-products");
-
-  return (
-    <Layout>
-      <Sider theme={'light'}>
-        <ProductsFilter isForEditable={matchCreatedProducts}/>
-      </Sider>
-      {!(products && products.length)
-        ? <div>Loading..</div>
-        : <Content theme={'light'}>
-          <div className={'product-list'}>
-            {products.map(product => (
-              <Product key={product.id} product={product}/>
-            ))}
-          </div>
-        </Content>}
-    </Layout>
-  );
+  return (!(products && products.length)
+    ? <div>Loading..</div>
+    : <div className={'product-list'}>
+      {products.map(product => (
+        <Product key={product.id} product={product}/>
+      ))}
+    </div>)
 }
+
+

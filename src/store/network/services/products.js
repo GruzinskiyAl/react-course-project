@@ -1,7 +1,7 @@
 import createApiSaga from '../createApiSaga';
 
-export const fetchProductList = createApiSaga({
-  alias: 'FETCH_CHARACTERS_LIST',
+export const fetchProductListSaga = createApiSaga({
+  alias: 'FETCH_PRODUCTS_LIST',
   buildReqConfig: searchParams => ({
     url: '/products',
     method: 'GET',
@@ -9,11 +9,29 @@ export const fetchProductList = createApiSaga({
   })
 });
 
-export const fetchProductDetails = createApiSaga({
-  alias: 'FETCH_CHARACTER_DETAILS',
-  addApiKey: true,
-  buildReqConfig: characterId => ({
-    url: `/products/${characterId}`,
+export const fetchProductDetailsSaga = createApiSaga({
+  alias: 'FETCH_PRODUCT_DETAILS',
+  buildReqConfig: productId => ({
+    url: `/products/${productId}`,
     method: 'GET'
   })
 });
+
+export const postProductSaga = createApiSaga({
+  alias: 'CREATE_PRODUCT',
+  buildReqConfig: data => ({
+    url: '/products',
+    method: 'POST',
+    data: data
+  })
+});
+
+export const patchProductSaga = createApiSaga({
+  alias: 'PATCH_PRODUCT',
+  buildReqConfig: ({data, productId}) => ({
+    url: `/products/${productId}`,
+    method: 'PATCH',
+    data: data
+  })
+});
+

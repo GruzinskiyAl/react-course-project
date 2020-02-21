@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  BrowserRouter as Router,
   Redirect,
   Route,
   Switch
@@ -11,21 +10,13 @@ import ProductRoute from "./routes/ProductRoute";
 import BasketRoute from "./routes/BasketRoute";
 import AppHeaderContainer from "./containers/AppHeaderContainer";
 import ProductFormContainer from "./containers/ProductFormContainer";
-import {useProducts} from "./hooks/products/useProducts";
-import {
-  selectCurrentEditableProducts,
-  selectCurrentProducts,
-  selectEditableProductsFilters,
-  selectProductsFilters
-} from "./store/selectors";
-import {connect} from "react-redux";
+import {useSelector} from "react-redux";
 import CreatedProductsRoute from "./routes/CreatedProductsRoute";
 
-const App = ({productsFilters, editableProductsFilters, currentProducts, currentEditableProducts, modalVisible}) => {
-  // useProducts(productsFilters, editableProductsFilters);
-
+const App = () => {
+  const modalVisible = useSelector(state => state.modal.visible);
   return (
-    <Router>
+    <div>
       <AppHeaderContainer/>
       {modalVisible && <ProductFormContainer/>}
       <Switch>
@@ -33,10 +24,10 @@ const App = ({productsFilters, editableProductsFilters, currentProducts, current
           <ProductRoute/>
         </Route>
         <Route path="/products">
-          <ProductsRoute currentProducts={currentProducts}/>
+          <ProductsRoute/>
         </Route>
         <Route path="/created-products">
-          <CreatedProductsRoute currentEditableProducts={currentEditableProducts}/>
+          <CreatedProductsRoute/>
         </Route>
         <Route path="/basket">
           <BasketRoute/>
@@ -45,16 +36,8 @@ const App = ({productsFilters, editableProductsFilters, currentProducts, current
           <Redirect to="/products"/>
         </Route>
       </Switch>
-    </Router>
+    </div>
   );
 };
 
-const mapStateToProps = state => ({
-  productsFilters: selectProductsFilters(state),
-  editableProductsFilters: selectEditableProductsFilters(state),
-  currentProducts: selectCurrentProducts(state),
-  currentEditableProducts: selectCurrentEditableProducts(state),
-  modalVisible: state.modal.visible,
-});
-
-export default connect(mapStateToProps)(App)
+export default App;

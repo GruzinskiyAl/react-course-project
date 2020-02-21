@@ -1,15 +1,32 @@
-import React from "react";
+import React, {useCallback} from "react";
 import {connect} from "react-redux";
-import {getFormValues, isValid} from "redux-form";
+import {reset} from "redux-form";
 import {Button, Modal} from 'antd';
 
 import ProductForm from "../components/ProductForm";
 import useProductFormInitialValues from "../hooks/form/useProductFormInitialValues";
-import useModalActionHandlers from "../hooks/modal/useModalActionHandlers";
+import {useInjectSaga} from "./AppWrapper";
+import {modalSaga} from "../store/modal/saga/modalSaga";
+import {ModalActions} from "../store/modal/actions";
 
-const ProductFormContainer = ({modal, formValues, isValid}) => {
+const {submitUpdatingModal, submitCreationModal, hideProductFormModal} = ModalActions;
+
+const ProductFormContainer = ({modal, dispatch}) => {
+  useInjectSaga('modalSaga', modalSaga, modal.productId);
   const initialValues = useProductFormInitialValues(modal.productId);
-  const {handleCancel, handleClear, handleSubmit} = useModalActionHandlers();
+
+  const handleCancel = useCallback(() => {
+    dispatch(hideProductFormModal())
+  }, [dispatch]);
+
+  const handleSubmit = useCallback((productId) => {
+    const action = (productId) ? submitUpdatingModal : submitCreationModal;
+    dispatch(action());
+  }, [dispatch]);
+
+  const handleClear = useCallback(() => {
+    dispatch(reset('productForm'))
+  }, [dispatch]);
 
   return (
     <div>
@@ -25,7 +42,7 @@ const ProductFormContainer = ({modal, formValues, isValid}) => {
           </Button>,
           <Button
             key="submit" type="primary" loading={modal.loading}
-            onClick={() => handleSubmit(formValues, modal.productId, isValid)}
+            onClick={() => handleSubmit(modal.productId)}
           >
             Submit
           </Button>,
@@ -39,8 +56,6 @@ const ProductFormContainer = ({modal, formValues, isValid}) => {
 
 const mapStateToProps = state => ({
     modal: state.modal,
-    formValues: getFormValues('productForm')(state),
-    isValid: isValid('productForm')(state)
   })
 ;
 

@@ -1,9 +1,4 @@
-import {
-  SAVE_PRODUCTS,
-  SAVE_EDITABLE_PRODUCTS,
-  CREATE_PRODUCT,
-  UPDATE_PRODUCT
-} from "./actionTypes";
+import {ProductActionTypes} from "./actions";
 
 export const initState = {
   byId: {},
@@ -49,16 +44,24 @@ const updateProduct = (state, action) => ({
   byId: {...state.byId, ...action.byId}
 });
 
+const saveOrUpdateProduct = (state, action) => ({
+  ...state,
+  byId: {...state.byId, ...action.byId},
+  allIds: state.allIds.includes(action.id) ? [...state.allIds] : [...state.allIds, action.id]
+});
+
 export default function productsReducer(state = initState, action) {
   switch (action.type) {
-    case(SAVE_PRODUCTS):
+    case(ProductActionTypes.FETCH_PRODUCTS_SUCCESS):
       return saveProducts(state, action);
-    case(SAVE_EDITABLE_PRODUCTS):
+    case(ProductActionTypes.FETCH_EDITABLE_PRODUCTS_SUCCESS):
       return saveEditableProducts(state, action);
-    case CREATE_PRODUCT:
+    case (ProductActionTypes.CREATE_PRODUCT_SUCCESS):
       return createProduct(state, action);
-    case UPDATE_PRODUCT:
+    case (ProductActionTypes.UPDATE_PRODUCT_SUCCESS):
       return updateProduct(state, action);
+    case (ProductActionTypes.FETCH_PRODUCT_DETAILS_SUCCESS):
+      return saveOrUpdateProduct(state, action);
     default:
       return state
   }

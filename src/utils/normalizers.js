@@ -17,3 +17,15 @@ export const normalizeProduct = data => {
     id
   }
 };
+
+export const normalizeFilters = data => {
+  const origins = data?.origins && (typeof data.origins === 'string'? [data.origins]: [...data.origins]);
+  const minPrice = data?.minPrice && !isNaN(data.minPrice) && parseInt(data.minPrice);
+  const maxPrice = data?.maxPrice && !isNaN(data.maxPrice) && parseInt(data.maxPrice);
+
+  return {
+    origins,
+    minPrice,
+    maxPrice
+  }
+};
