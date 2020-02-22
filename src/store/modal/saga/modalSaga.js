@@ -6,7 +6,6 @@ import {updateProductSaga} from "../../products/saga/updateProductSaga";
 import {submit} from 'redux-form';
 
 function* modalSuccessSaga() {
-  yield put(ModalActions.setLoading(false));
   yield put(ModalActions.hideProductFormModal());
 }
 

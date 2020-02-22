@@ -4,9 +4,10 @@ import {Link, useRouteMatch} from "react-router-dom";
 import useBasketItemPrice from "../hooks/basket/useBasketItemPrice";
 import useBasketItemCount from "../hooks/basket/useBasketItemCount";
 import useProductActionHandlers from "../hooks/products/useProductActionHandlers";
+import {routingConfig} from "../routes/routingConfig";
 
 export default function Product({product}) {
-  const matchBasket = useRouteMatch("/basket");
+  const matchBasket = useRouteMatch(routingConfig.basket.path);
   const {id, name, price, origin, createdAt, updatedAt, isEditable} = product;
 
   const basketProductsPrice = useBasketItemPrice(id);

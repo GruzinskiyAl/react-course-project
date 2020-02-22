@@ -13,7 +13,7 @@ export function* createProductSaga() {
   const data = yield select(selectProductFormValues);
   try {
     const response = yield call(postProductSaga, data);
-    yield put(ProductActions.createProductSuccess(normalizeProduct(response.data)))
+    yield put(ProductActions.createProductSuccess(normalizeProduct(response)))
   } catch (e) {
     yield put(ProductActions.createProductFailure())
   }

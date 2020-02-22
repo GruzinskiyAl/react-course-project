@@ -13,7 +13,7 @@ export function* updateProductSaga(productId) {
   const data = yield select(selectProductFormValues);
   try {
     const response = yield call(patchProductSaga, {data, productId});
-    yield put(ProductActions.updateProductSuccess(normalizeProduct(response.data)))
+    yield put(ProductActions.updateProductSuccess(normalizeProduct(response)))
   } catch (e) {
     yield put(ProductActions.updateProductFailure())
   }
