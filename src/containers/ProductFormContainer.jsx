@@ -7,9 +7,12 @@ import useProductFormInitialValues from "../hooks/form/useProductFormInitialValu
 import {useInjectSaga} from "./AppWrapper";
 import {modalSaga} from "../store/modal/saga/modalSaga";
 import {ModalActions} from "../store/modal/actions";
+import availableFiltersSaga from "../store/filtration/saga/availableFiltersSaga";
 
 const ProductFormContainer = ({modal, dispatch}) => {
   useInjectSaga('modalSaga', modalSaga, modal.productId);
+  useInjectSaga('availableFiltersSaga', availableFiltersSaga);
+
   const initialValues = useProductFormInitialValues(modal.productId);
 
   const handleCancel = useCallback(() => {

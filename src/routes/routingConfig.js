@@ -3,9 +3,9 @@ export const routingConfig = {
     key: 'products',
     path: '/products'
   },
-  createdProducts: {
-    key: 'created-products',
-    path: '/created-products'
+  editableProducts: {
+    key: 'editable-products',
+    path: '/editable-products'
   },
   product: {
     key: 'product',

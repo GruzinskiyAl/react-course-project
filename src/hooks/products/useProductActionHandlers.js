@@ -1,21 +1,21 @@
 import {useCallback} from 'react';
 import {useDispatch} from "react-redux";
-import {decrementBasketItemCount, dropBasketItem, incrementBasketItemCount} from "../../store/basket/actions";
+import {BasketActions} from "../../store/basket/actions";
 import {ModalActions} from "../../store/modal/actions";
 
 export default function useProductActionHandler(id) {
   const dispatch = useDispatch();
 
   const handleIncrementClick = useCallback(() => {
-    dispatch(incrementBasketItemCount(id))
+    dispatch(BasketActions.incrementBasketItemCount(id))
   }, [id, dispatch]);
 
   const handleDecrementClick = useCallback(() => {
-    dispatch(decrementBasketItemCount(id))
+    dispatch(BasketActions.decrementBasketItemCount(id))
   }, [id, dispatch]);
 
   const handleDeleteClick = useCallback(() => {
-    dispatch(dropBasketItem(id))
+    dispatch(BasketActions.dropBasketItem(id))
   }, [id, dispatch]);
 
   const handleChangeClick = useCallback(() => {

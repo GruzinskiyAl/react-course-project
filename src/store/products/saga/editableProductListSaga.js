@@ -2,12 +2,12 @@ import {put, call, select, takeLatest, delay, getContext} from 'redux-saga/effec
 import {selectEditableProductsFilters} from "../../selectors";
 import {ProductActions} from "../actions";
 import {normalizeFilters, normalizeProducts} from "../../../utils/normalizers";
-import {SET_EDITABLE_PRODUCTS_FILTERS} from "../../filtration/actionTypes";
+import {FiltrationActionTypes} from "../../filtration/actions";
 import {parse, stringify} from "qs";
-import {setEditableProductsFilters} from "../../filtration/actions";
+import {FiltrationActions} from "../../filtration/actions";
 import {fetchProductListSaga} from "../../network/services/products";
 
-function* worker() {
+function* worker({withDelay}) {
   const queryParams = yield select(selectEditableProductsFilters);
   const searchInUrl = stringify(queryParams, {
     arrayFormat: 'repeat'
@@ -18,24 +18,26 @@ function* worker() {
   history.push({
     search: searchInUrl
   });
-
-  yield delay(1000);
+  if (withDelay) {
+    yield delay(1000);
+  }
   try {
-    const data = yield call(fetchProductListSaga, queryParams);
+    const response = yield call(fetchProductListSaga, queryParams);
 
-    yield put(ProductActions.fetchEditableProductsSuccess(normalizeProducts(data.items)));
+    yield put(ProductActions.fetchEditableProductsSuccess(normalizeProducts(response)));
   } catch (e) {
     console.log(e)
   }
 }
 
 export default function* editableProductListSaga() {
-  yield takeLatest(SET_EDITABLE_PRODUCTS_FILTERS, worker);
+  yield takeLatest(FiltrationActionTypes.SET_EDITABLE_PRODUCTS_FILTERS, worker, {withDelay: true});
+  yield takeLatest(FiltrationActionTypes.SET_EDITABLE_PRODUCTS_PAGE, worker);
   const history = yield getContext('history');
 
   let filtersFromUrl = {};
   if (history.location.search.substr(1)) {
     filtersFromUrl = normalizeFilters(parse(history.location.search.substr(1)));
   }
-  yield put(setEditableProductsFilters(filtersFromUrl));
+  yield put(FiltrationActions.setEditableProductsFilters(filtersFromUrl));
 }

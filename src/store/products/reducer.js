@@ -4,7 +4,9 @@ export const initState = {
   byId: {},
   allIds: [],
   currentProductsIds: [],
-  currentEditableProductsIds: []
+  currentProductsTotal: 0,
+  currentEditableProductsIds: [],
+  currentEditableProductsTotal: 0,
 };
 
 function saveProducts(state, action) {
@@ -15,6 +17,7 @@ function saveProducts(state, action) {
       ...action.byId
     },
     allIds: [...state.allIds, ...action.allIds.filter(el => !state.allIds.includes(el))],
+    currentProductsTotal: action.totalItems,
     currentProductsIds: [...action.allIds],
   }
 }
@@ -28,6 +31,7 @@ function saveEditableProducts(state, action) {
     },
     // list of uniques needed
     allIds: [...state.allIds, ...action.allIds.filter(el => !state.allIds.includes(el))],
+    currentEditableProductsTotal: action.totalItems,
     currentEditableProductsIds: [...action.allIds]
   }
 }

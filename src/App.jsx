@@ -11,13 +11,13 @@ import BasketRoute from "./routes/BasketRoute";
 import AppHeaderContainer from "./containers/AppHeaderContainer";
 import ProductFormContainer from "./containers/ProductFormContainer";
 import {useSelector} from "react-redux";
-import CreatedProductsRoute from "./routes/CreatedProductsRoute";
+import EditableProductsRoute from "./routes/EditableProductsRoute";
 import {routingConfig} from "./routes/routingConfig";
 
 const App = () => {
   const modalVisible = useSelector(state => state.modal.visible);
   return (
-    <div>
+    <div className={'main'}>
       <AppHeaderContainer/>
       {modalVisible && <ProductFormContainer/>}
       <Switch>
@@ -27,8 +27,8 @@ const App = () => {
         <Route path={routingConfig.products.path}>
           <ProductsRoute/>
         </Route>
-        <Route path={routingConfig.createdProducts.path}>
-          <CreatedProductsRoute/>
+        <Route path={routingConfig.editableProducts.path}>
+          <EditableProductsRoute/>
         </Route>
         <Route path={routingConfig.basket.path}>
           <BasketRoute/>

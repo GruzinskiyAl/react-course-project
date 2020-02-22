@@ -36,6 +36,16 @@ export const makeSelectorProductById = id => createSelector(
   products => products[id]
 );
 
+export const selectCurrentProductsTotal = createSelector(
+  selectProducts,
+  state => state.currentProductsTotal
+);
+
+export const selectCurrentEditableProductsTotal = createSelector(
+  selectProducts,
+  state => state.currentEditableProductsTotal
+);
+
 //basket
 export const makeSelectBasketItemCount = id => createSelector(
   selectBasket,
@@ -66,15 +76,40 @@ export const selectBasketFullPrice = createSelector(
   }
 );
 
-// filtrations
+// filtration
 export const selectProductsFilters = createSelector(
   selectFiltration,
   filtration => filtration.products
 );
 
+export const selectProductsCurrentPage = createSelector(
+  selectProductsFilters,
+  filtration => filtration.page
+);
+
+export const selectProductsPageSize = createSelector(
+  selectProductsFilters,
+  filtration => filtration.perPage
+);
+
 export const selectEditableProductsFilters = createSelector(
   selectFiltration,
   filtration => filtration.editableProducts
+);
+
+export const selectEditableProductsCurrentPage = createSelector(
+  selectEditableProductsFilters,
+  filtration => filtration.page
+);
+
+export const selectEditableProductsPageSize = createSelector(
+  selectEditableProductsFilters,
+  filtration => filtration.perPage
+);
+
+export const selectAvailableOrigins = createSelector(
+  selectFiltration,
+  filtration => filtration.meta.origins
 );
 
 // form
