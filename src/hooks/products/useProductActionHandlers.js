@@ -10,10 +10,6 @@ export default function useProductActionHandler(id) {
     dispatch(BasketActions.incrementBasketItemCount(id))
   }, [id, dispatch]);
 
-  const handleDecrementClick = useCallback(() => {
-    dispatch(BasketActions.decrementBasketItemCount(id))
-  }, [id, dispatch]);
-
   const handleDeleteClick = useCallback(() => {
     dispatch(BasketActions.dropBasketItem(id))
   }, [id, dispatch]);
@@ -22,10 +18,14 @@ export default function useProductActionHandler(id) {
     dispatch(ModalActions.showProductFormModal(id));
   }, [id, dispatch]);
 
+  const handleChangeCount = useCallback((id, count) => {
+    dispatch(BasketActions.setBasketItemCount({id, count}))
+  }, [dispatch]);
+
   return {
     handleIncrementClick,
-    handleDecrementClick,
     handleDeleteClick,
-    handleChangeClick
+    handleChangeClick,
+    handleChangeCount
   }
 }

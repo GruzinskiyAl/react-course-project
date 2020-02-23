@@ -9,7 +9,8 @@ export const routingConfig = {
   },
   product: {
     key: 'product',
-    path: '/products/:productId'
+    path: '/products/:{productId}',
+    getPath: productId => `/products/:${productId}`
   },
   basket: {
     key: 'basket',

@@ -1,5 +1,5 @@
 import React from "react";
-import {Card, Icon} from "antd";
+import {Card, Icon, InputNumber} from "antd";
 import {Link, useRouteMatch} from "react-router-dom";
 import useBasketItemPrice from "../hooks/basket/useBasketItemPrice";
 import useBasketItemCount from "../hooks/basket/useBasketItemCount";
@@ -14,9 +14,9 @@ export default function Product({product}) {
   const countInBasket = useBasketItemCount(id);
   const {
     handleIncrementClick,
-    handleDecrementClick,
     handleDeleteClick,
-    handleChangeClick
+    handleChangeClick,
+    handleChangeCount,
   } = useProductActionHandlers(id);
 
   const actions = (isEditable)
@@ -42,27 +42,24 @@ export default function Product({product}) {
           onClick={handleDeleteClick}
         />
       ),
-      matchBasket && (
-        <Icon key="left" type="left" onClick={handleDecrementClick}/>
-      ),
-
-      matchBasket && <p>{countInBasket}</p>,
-      matchBasket && (
-        <Icon key="right" type="right" onClick={handleIncrementClick}/>
-      )
+      matchBasket && <InputNumber value={countInBasket} onChange={count=>handleChangeCount(id, count)}/>,
     ].filter(Boolean);
+
+  const cardStyle = {
+    margin: '5px',
+    width: 400
+  };
 
   return (
     <Card
-      className="product"
+      style={cardStyle}
       title={name}
       extra={
-        <Link key="name" to={`/products/${id}`}>
+        <Link key="name" to={routingConfig.product.getPath(id)}>
           Info
         </Link>
       }
       actions={actions}
-      style={{width: 400}}
     >
       <p>Origin: {origin}</p>
       <p>Date created: {new Date(createdAt).toLocaleString()}</p>

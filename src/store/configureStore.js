@@ -6,7 +6,6 @@ import basketReducer from "./basket/reducer";
 import filtrationReducer from "./filtration/reducer";
 import modalReducer from "./modal/reducer";
 import {reducer as formReducer} from "redux-form";
-import logger from "redux-logger";
 
 export default function configureStore({history, rootSaga}) {
   const sagaMiddleware = createSagaMiddleware({
@@ -23,7 +22,6 @@ export default function configureStore({history, rootSaga}) {
       modal: modalReducer,
       form: formReducer
     }),
-    // composeWithDevTools(applyMiddleware(logger, sagaMiddleware))
     composeWithDevTools(applyMiddleware(sagaMiddleware))
   );
   Object.assign(store, createSagaInjector(sagaMiddleware.run, rootSaga));

@@ -22,5 +22,6 @@ export const useInjectSaga = (key, saga, ...args) => {
     return () => {
       store.ejectSaga(key);
     };
+    // eslint-disable-next-line
   }, [key, saga]);
 };

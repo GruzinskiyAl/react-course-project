@@ -1,5 +1,5 @@
 import React, {useCallback} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {connect} from "react-redux";
 import {Layout, Pagination} from "antd";
 import ProductList from "../containers/ProductList";
 import {useInjectSaga} from "../containers/AppWrapper";
@@ -7,39 +7,68 @@ import productListSaga from "../store/products/saga/productListSaga";
 import {
   selectCurrentProducts,
   selectCurrentProductsTotal,
-  selectProductsCurrentPage,
+  selectProductsCurrentPage, selectProductsFilters,
   selectProductsPageSize
 } from "../store/selectors";
 import ProductsFilter from "../containers/ProductsFilter";
 import {FiltrationActions} from "../store/filtration/actions";
 
-const {Sider, Content, Footer} = Layout;
+const {Sider, Content} = Layout;
 
-export default function ProductsRoute() {
+const ProductsRoute = (props) => {
+  const {
+    productsFiltration,
+    setProductsFilters,
+    setProductsPage,
+    currentPage,
+    pageSize,
+    totalCount,
+    currentProducts,
+    loading
+  } = props;
   useInjectSaga('productListSaga', productListSaga);
-  const dispatch = useDispatch();
-  const currentPage = useSelector(selectProductsCurrentPage);
-  const pageSize = useSelector(selectProductsPageSize);
-  const totalCount = useSelector(selectCurrentProductsTotal);
-  const currentProducts = useSelector(selectCurrentProducts);
 
   const onChangeHandler = useCallback(page => {
-    dispatch(FiltrationActions.setProductsPage(page))
-  }, [dispatch]);
+    setProductsPage(page)
+  }, [setProductsPage]);
 
   return (
     <Layout>
-      <Layout>
-        <Sider theme={'light'}>
-          <ProductsFilter isForEditable={false}/>
-        </Sider>
-        <Content>
-          <ProductList products={currentProducts}/>
-        </Content>
-      </Layout>
-      <div>
-        <Pagination current={currentPage} total={totalCount} onChange={onChangeHandler} pageSize={pageSize}/>
-      </div>
+      <Sider theme={'light'}>
+        <ProductsFilter filtration={productsFiltration} action={setProductsFilters}/>
+      </Sider>
+      <Content>
+        <ProductList products={currentProducts} loading={loading}/>
+        <Pagination
+          current={currentPage}
+          total={totalCount}
+          onChange={onChangeHandler}
+          pageSize={pageSize}
+        />
+      </Content>
     </Layout>
   )
 };
+
+const mapStateToProps = state => {
+  return {
+    productsFiltration: selectProductsFilters(state),
+    currentPage: selectProductsCurrentPage(state),
+    pageSize: selectProductsPageSize(state),
+    totalCount: selectCurrentProductsTotal(state),
+    currentProducts: selectCurrentProducts(state),
+    loading: state.products.loading
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setProductsFilters: data => dispatch(FiltrationActions.setProductsFilters(data)),
+    setProductsPage: page => dispatch(FiltrationActions.setProductsPage(page))
+  }
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProductsRoute);

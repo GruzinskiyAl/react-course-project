@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 export default function AppHeader({fullPrice, addProductClickHandler}) {
   return (
     <PageHeader
-      className="app-header"
+      style={{backgroundColor: '#fafafa'}}
       title="Shopping"
       extra={[
         <Button key={"addProduct"} type={'default'} onClick={addProductClickHandler}>Add Product</Button>,

@@ -4,7 +4,6 @@ import {useSelector} from "react-redux";
 import {selectAvailableOrigins} from "../../store/selectors";
 import Spinner from "../Spinner";
 
-const CheckboxGroup = Checkbox.Group;
 
 export default function OriginFilter({origins, setFilter}) {
   const options = useSelector(selectAvailableOrigins);
@@ -18,8 +17,14 @@ export default function OriginFilter({origins, setFilter}) {
     setCheckedList(origins)
   }, [origins, setFilter]);
 
+  const groupStyle = {
+    display: 'flex',
+    flexDirection: 'column'
+  };
+
   return ((options.length)
-      ? <CheckboxGroup
+      ? <Checkbox.Group
+        style={groupStyle}
         options={options}
         defaultValue={origins}
         value={checkedList}

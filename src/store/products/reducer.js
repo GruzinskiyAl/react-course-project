@@ -7,6 +7,7 @@ export const initState = {
   currentProductsTotal: 0,
   currentEditableProductsIds: [],
   currentEditableProductsTotal: 0,
+  loading: false
 };
 
 function saveProducts(state, action) {
@@ -54,18 +55,25 @@ const saveOrUpdateProduct = (state, action) => ({
   allIds: state.allIds.includes(action.id) ? [...state.allIds] : [...state.allIds, action.id]
 });
 
+const setLoading = (state, action) => ({
+  ...state,
+  loading: action.loading
+});
+
 export default function productsReducer(state = initState, action) {
   switch (action.type) {
-    case(ProductActionTypes.FETCH_PRODUCTS_SUCCESS):
+    case ProductActionTypes.FETCH_PRODUCTS_SUCCESS:
       return saveProducts(state, action);
-    case(ProductActionTypes.FETCH_EDITABLE_PRODUCTS_SUCCESS):
+    case ProductActionTypes.FETCH_EDITABLE_PRODUCTS_SUCCESS:
       return saveEditableProducts(state, action);
-    case (ProductActionTypes.CREATE_PRODUCT_SUCCESS):
+    case ProductActionTypes.CREATE_PRODUCT_SUCCESS:
       return createProduct(state, action);
-    case (ProductActionTypes.UPDATE_PRODUCT_SUCCESS):
+    case ProductActionTypes.UPDATE_PRODUCT_SUCCESS:
       return updateProduct(state, action);
-    case (ProductActionTypes.FETCH_PRODUCT_DETAILS_SUCCESS):
+    case ProductActionTypes.FETCH_PRODUCT_DETAILS_SUCCESS:
       return saveOrUpdateProduct(state, action);
+    case ProductActionTypes.SET_LIST_LOADING:
+      return setLoading(state, action);
     default:
       return state
   }

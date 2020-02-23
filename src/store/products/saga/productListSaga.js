@@ -20,14 +20,16 @@ function* worker({withDelay}) {
   });
 
   if (withDelay) {
-    console.log('delay');
     yield delay(1000);
   }
+  yield put(ProductActions.setListLoading(true));
   try {
     const response = yield call(fetchProductListSaga, queryParams);
     yield put(ProductActions.fetchProductsSuccess(normalizeProducts(response)));
   } catch (e) {
     console.log(e)
+  } finally {
+    yield put(ProductActions.setListLoading(false));
   }
 }
 
