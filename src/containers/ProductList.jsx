@@ -1,26 +1,31 @@
 import React from "react";
-import {useRouteMatch} from "react-router-dom";
-import ProductsFilter from "./ProductsFilter";
-import {Layout} from 'antd';
 import Product from "../ui/Product";
+import styled from "styled-components";
+import Spinner from "../components/Spinner";
 
-const {Sider, Content} = Layout;
+const Wrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  height: 80vh;
+  overflow: auto;
+`;
 
-export default function ProductList({products}) {
-  const matchCreatedProducts = useRouteMatch("/created-products");
-
+export default function ProductList({products, loading}) {
+  if (loading && !products.length) {
+    return (<Spinner size={24}><Wrapper>
+      {products.map(product => (
+        <Product key={product.id} product={product}/>
+      ))}
+    </Wrapper></Spinner>)
+  }
   return (
-    <Layout>
-      <Sider theme={'light'}>
-        <ProductsFilter isForEditable={matchCreatedProducts}/>
-      </Sider>
-      <Content theme={'light'}>
-        <div className={'product-list'}>
-          {products.map(product => (
-            <Product key={product.id} product={product}/>
-          ))}
-        </div>
-      </Content>
-    </Layout>
-  );
+    <Wrapper>
+      {products.map(product => (
+        <Product key={product.id} product={product}/>
+      ))}
+    </Wrapper>)
 }
+
+

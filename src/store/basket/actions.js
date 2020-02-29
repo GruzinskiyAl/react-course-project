@@ -1,30 +1,20 @@
-import {INCREMENT_ITEM_COUNT, SET_ITEM_COUNT, DROP_ITEM, DECREMENT_ITEM_COUNT} from './actionTypes'
+export const BasketActionTypes = {
+  INCREMENT_ITEM_COUNT: 'INCREMENT_ITEM_COUNT',
+  SET_ITEM_COUNT: 'SET_ITEM_COUNT',
+  DROP_ITEM: 'DROP_ITEM',
+};
 
-export function incrementBasketItemCount(id) {
-  return {
-    type: INCREMENT_ITEM_COUNT,
+export const BasketActions = {
+  incrementBasketItemCount: id => ({
+    type: BasketActionTypes.INCREMENT_ITEM_COUNT,
     id
-  }
-}
-
-export function decrementBasketItemCount(id) {
-  return {
-    type: DECREMENT_ITEM_COUNT,
+  }),
+  dropBasketItem: id => ({
+    type: BasketActionTypes.DROP_ITEM,
     id
-  }
-}
-
-export function dropBasketItem(id) {
-  return {
-    type: DROP_ITEM,
-    id
-  }
-}
-
-export function setBasketItemCount(data) {
-  return {
-    type: SET_ITEM_COUNT,
+  }),
+  setBasketItemCount: data => ({
+    type: BasketActionTypes.SET_ITEM_COUNT,
     ...data
-  }
-}
-
+  })
+};

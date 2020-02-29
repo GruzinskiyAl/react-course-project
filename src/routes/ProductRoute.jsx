@@ -1,18 +1,18 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import { useProduct } from "../hooks/products/useProduct";
+import React, {useMemo} from "react";
+import {useParams} from "react-router-dom";
 import Product from "../ui/Product";
+import {makeSelectorProductById} from "../store/selectors";
+import {useSelector} from "react-redux";
+import {useInjectSaga} from "../containers/AppWrapper";
+import productDetailsSaga from '../store/products/saga/productDetailsSaga'
 
 export default function ProductRoute() {
-  const { productId } = useParams();
-  const { product } = useProduct(productId);
+  const {productId} = useParams();
+  useInjectSaga('productDetailsSaga', productDetailsSaga, productId);
 
-  if (!product) {
-    return <div>Loading</div>;
-  }
-  return (
-    <Product
-      product={product}
-    />
-  );
+  const selectProductById = useMemo(() => makeSelectorProductById(productId), [productId]);
+  const product = useSelector(selectProductById);
+
+  return (!product) ? <div>Loading...</div> : <Product product={product}/>
+
 }

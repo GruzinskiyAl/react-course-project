@@ -1,24 +1,9 @@
 import {createSelector} from "reselect";
+import {getFormValues, isValid} from "redux-form";
 
-export const selectProducts = state => {
-  return state.products
-};
-
-export const selectBasket = state => {
-  return state.basket
-};
-
-export const selectFiltration = state => {
-  return state.filtration
-};
-
-export const selectModal = state => {
-  return state.modal
-};
-
-export const selectForm = state => {
-  return state.form
-};
+export const selectProducts = state => state.products;
+export const selectBasket = state => state.basket;
+export const selectFiltration = state => state.filtration;
 
 //products
 export const selectProductsEntities = createSelector(
@@ -51,6 +36,16 @@ export const makeSelectorProductById = id => createSelector(
   products => products[id]
 );
 
+export const selectCurrentProductsTotal = createSelector(
+  selectProducts,
+  state => state.currentProductsTotal
+);
+
+export const selectCurrentEditableProductsTotal = createSelector(
+  selectProducts,
+  state => state.currentEditableProductsTotal
+);
+
 //basket
 export const makeSelectBasketItemCount = id => createSelector(
   selectBasket,
@@ -81,10 +76,20 @@ export const selectBasketFullPrice = createSelector(
   }
 );
 
-// filtrations
+// filtration
 export const selectProductsFilters = createSelector(
   selectFiltration,
   filtration => filtration.products
+);
+
+export const selectProductsCurrentPage = createSelector(
+  selectProductsFilters,
+  filtration => filtration.page
+);
+
+export const selectProductsPageSize = createSelector(
+  selectProductsFilters,
+  filtration => filtration.perPage
 );
 
 export const selectEditableProductsFilters = createSelector(
@@ -92,4 +97,22 @@ export const selectEditableProductsFilters = createSelector(
   filtration => filtration.editableProducts
 );
 
+export const selectEditableProductsCurrentPage = createSelector(
+  selectEditableProductsFilters,
+  filtration => filtration.page
+);
 
+export const selectEditableProductsPageSize = createSelector(
+  selectEditableProductsFilters,
+  filtration => filtration.perPage
+);
+
+export const selectAvailableOrigins = createSelector(
+  selectFiltration,
+  filtration => filtration.meta.origins
+);
+
+// form
+export const selectProductFormIsValid = state => isValid('productForm')(state);
+
+export const selectProductFormValues = state => ({product: getFormValues('productForm')(state)});

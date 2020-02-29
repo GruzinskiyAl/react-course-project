@@ -1,55 +1,33 @@
-import React, {useState, useCallback} from "react";
-import {connect} from "react-redux";
-import {Button} from 'antd';
+import React from "react";
+import PriceFilter from "../components/filtration/PriceFilter";
+import OriginFilter from "../components/filtration/OriginFilter";
+import {useInjectSaga} from "./AppWrapper";
+import availableFiltersSaga from "../store/filtration/saga/availableFiltersSaga";
+import styled from 'styled-components';
 
-import PriceFilter from "../ui/filtration/PriceFilter";
-import OriginFilter from "../ui/filtration/OriginFilter";
-import {setProductsFilters, setEditableProductsFilters} from "../store/filtration/actions";
 
-const ORIGINS = ['usa', 'africa', 'asia', 'europe'];
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 0 10px;
+`;
 
-const ProductsFilter = (
-  {productsFiltration, editableProductsFiltration, setProductsFilters, setEditableProductsFilters, isForEditable}
-) => {
-  const [targetFiltration, targetAction] = isForEditable
-    ? [editableProductsFiltration, setEditableProductsFilters]
-    : [productsFiltration, setProductsFilters];
+const Title = styled.div`
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 0;
+`;
 
-  const [origins, setOrigins] = useState(targetFiltration.origins);
-  const [minPrice, setMinPrice] = useState(targetFiltration.minPrice);
-  const [maxPrice, setMaxPrice] = useState(targetFiltration.maxPrice);
-
-  const handleSubmit = useCallback(() => {
-    const data = {origins, minPrice, maxPrice};
-    targetAction(data)
-  }, [origins, minPrice, maxPrice, targetAction]);
+export default function ProductsFilter({filtration, action}) {
+  useInjectSaga('availableFiltersSaga', availableFiltersSaga);
 
   return (
-    <div className={'filter-block'}>
-      <div>Origin filter:</div>
-      <OriginFilter options={ORIGINS} origins={origins} setOrigins={setOrigins}/>
-      <div>Price filter:</div>
-      <PriceFilter minPrice={minPrice} maxPrice={maxPrice} setMinPrice={setMinPrice} setMaxPrice={setMaxPrice}/>
-      <Button type="primary" onClick={handleSubmit}>Submit</Button>
-    </div>
+    <Wrapper>
+      <Title>Origin filter:</Title>
+      <OriginFilter origins={filtration.origins} setFilter={action}/>
+      <Title>Price filter:</Title>
+      <PriceFilter minPrice={filtration.minPrice} maxPrice={filtration.maxPrice} setFilter={action}/>
+    </Wrapper>
   )
 };
-
-const mapStateToProps = state => {
-  return {
-    productsFiltration: state.filtration.products,
-    editableProductsFiltration: state.filtration.editableProducts,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    setProductsFilters: data => dispatch(setProductsFilters(data)),
-    setEditableProductsFilters: data => dispatch(setEditableProductsFilters(data))
-  }
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProductsFilter);

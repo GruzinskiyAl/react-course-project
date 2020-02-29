@@ -1,4 +1,4 @@
-import {INCREMENT_ITEM_COUNT, DECREMENT_ITEM_COUNT, DROP_ITEM, SET_ITEM_COUNT} from "./actionTypes";
+import {BasketActionTypes} from "./actions";
 
 const initState = {};
 
@@ -11,15 +11,6 @@ function incrementItemCount(newState, action) {
   return newState
 }
 
-function decrementItemCount(newState, action) {
-  if (newState[action.id] > 1) {
-    newState[action.id] -= 1
-  } else {
-    delete newState[action.id];
-  }
-  return newState
-}
-
 function dropItem(newState, action) {
   delete newState[action.id];
   return newState
@@ -27,20 +18,19 @@ function dropItem(newState, action) {
 
 function setItemCount(newState, action) {
   const {id, count} = action;
-  newState[id] = count > 0 ? count : newState[id]
+  newState[id] = count > 0 ? count : newState[id];
+  return newState
 }
 
 export default function basketReducer(state = initState, action) {
   const newState = {...state};
 
   switch (action.type) {
-    case INCREMENT_ITEM_COUNT:
+    case BasketActionTypes.INCREMENT_ITEM_COUNT:
       return incrementItemCount(newState, action);
-    case DECREMENT_ITEM_COUNT:
-      return decrementItemCount(newState, action);
-    case DROP_ITEM:
+    case BasketActionTypes.DROP_ITEM:
       return dropItem(newState, action);
-    case SET_ITEM_COUNT:
+    case BasketActionTypes.SET_ITEM_COUNT:
       return setItemCount(newState, action);
     default:
       return state

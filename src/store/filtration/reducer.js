@@ -1,16 +1,23 @@
-import {SET_PRODUCTS_FILTERS, SET_EDITABLE_PRODUCTS_FILTERS} from "./actionTypes";
+import {FiltrationActionTypes} from "./actions";
 
 const initState = {
   products: {
-    origins: ['usa', 'africa', 'asia', 'europe'],
-    minPrice: 0,
-    maxPrice: 1000
-  },
-  editableProducts: {
-    origins: ['usa', 'africa', 'asia', 'europe'],
+    origins: [],
     minPrice: 0,
     maxPrice: 1000,
-    editable: true
+    page: 1,
+    perPage: 18
+  },
+  editableProducts: {
+    origins: [],
+    minPrice: 0,
+    maxPrice: 1000,
+    editable: true,
+    page: 1,
+    perPage: 18
+  },
+  meta: {
+    origins: [],
   }
 };
 
@@ -24,12 +31,33 @@ const setEditableProductsFilters = (state, action) => ({
   editableProducts: {...state.editableProducts, ...action.data}
 });
 
+const setAvailableOrigins = (state, action) => ({
+  ...state,
+  meta: {...state.meta, origins: action.origins}
+});
+
+const setProductsPage = (state, action) => ({
+  ...state,
+  products: {...state.products, page: action.page}
+});
+
+const setEditableProductsPage = (state, action) => ({
+  ...state,
+  editableProducts: {...state.editableProducts, page: action.page}
+});
+
 export default function filtrationReducer(state = initState, action) {
   switch (action.type) {
-    case SET_PRODUCTS_FILTERS:
+    case FiltrationActionTypes.SET_PRODUCTS_FILTERS:
       return setProductsFilters(state, action);
-    case SET_EDITABLE_PRODUCTS_FILTERS:
+    case FiltrationActionTypes.SET_PRODUCTS_PAGE:
+      return setProductsPage(state, action);
+    case FiltrationActionTypes.SET_EDITABLE_PRODUCTS_FILTERS:
       return setEditableProductsFilters(state, action);
+    case FiltrationActionTypes.SET_EDITABLE_PRODUCTS_PAGE:
+      return setEditableProductsPage(state, action);
+    case FiltrationActionTypes.SET_AVAILABLE_ORIGINS:
+      return setAvailableOrigins(state, action);
     default:
       return state
   }
